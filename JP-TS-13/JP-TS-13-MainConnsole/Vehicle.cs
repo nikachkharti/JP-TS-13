@@ -18,18 +18,16 @@
 
             if (separatedData.Length == 9)
             {
-                Vehicle result = new()
-                {
-                    Make = separatedData[0],
-                    Model = separatedData[1],
-                    Cylinder = byte.Parse(separatedData[2]),
-                    Engine = float.Parse(separatedData[3]),
-                    Drive = separatedData[4],
-                    Transmission = separatedData[5],
-                    City = byte.Parse(separatedData[6]),
-                    Combined = byte.Parse(separatedData[7]),
-                    Highway = byte.Parse(separatedData[8])
-                };
+                Vehicle result = new();
+                result.Make = separatedData[0];
+                result.Model = separatedData[1];
+                result.Cylinder = byte.Parse(separatedData[2]);
+                result.Engine = float.Parse(separatedData[3]);
+                result.Drive = separatedData[4];
+                result.Transmission = separatedData[5];
+                result.City = byte.Parse(separatedData[6]);
+                result.Combined = byte.Parse(separatedData[7]);
+                result.Highway = byte.Parse(separatedData[8]);
 
                 return result;
             }
