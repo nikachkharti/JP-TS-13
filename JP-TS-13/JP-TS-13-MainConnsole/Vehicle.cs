@@ -11,5 +11,10 @@
         public byte City { get; set; }
         public byte Combined { get; set; }
         public byte Highway { get; set; }
+
+        public Vehicle Parse(string data)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
