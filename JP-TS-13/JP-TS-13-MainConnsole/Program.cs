@@ -1,20 +1,2 @@
-﻿using JP_TS_13_MainConnsole;
-
-string[] rawData = File.ReadAllLines(@"../../../vehicles.csv");
-Vehicle[] parsedCars = Algorithms.Select(rawData);
-
-
-var economicCars = Algorithms.Sort(parsedCars);
-
-
-Console.ReadLine();
-
-
-
-
-
-
-
-
-
-
+﻿// See https://aka.ms/new-console-template for more information
+Console.WriteLine("Hello, World!");
