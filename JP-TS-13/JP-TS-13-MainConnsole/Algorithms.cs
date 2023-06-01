@@ -55,5 +55,43 @@
 
             return collection;
         }
+
+        public static int FindIndex(int[] collection, int value)
+        {
+            for (int i = 0; i < collection.Length; i++)
+            {
+                if (value == collection[i])
+                {
+                    return i;
+                }
+            }
+
+            return -1;
+        }
+
+        public static int FirstOrDefault(int[] collection, int value)
+        {
+            for (int i = 0; i < collection.Length; i++)
+            {
+                if (collection[i] == value)
+                {
+                    return collection[i];
+                }
+            }
+
+            return default;
+        }
+
+        public static int LastOrDefault(int[]collection,int value)
+        {
+            for (int i = collection.Length - 1; i >= 0; i--)
+            {
+                if (collection[i] == value)
+                {
+                    return collection[i];
+                }
+            }
+            return default;
+        }
     }
 }
