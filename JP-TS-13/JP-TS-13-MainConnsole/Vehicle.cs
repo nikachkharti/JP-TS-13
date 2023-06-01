@@ -35,7 +35,6 @@
             {
                 throw new FormatException("Car information is in incorrect format");
             }
-
         }
     }
 }

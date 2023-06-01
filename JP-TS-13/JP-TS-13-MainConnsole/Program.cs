@@ -4,8 +4,12 @@ string[] rawData = File.ReadAllLines(@"../../../vehicles.csv");
 Vehicle[] parsedCars = Algorithms.Select(rawData);
 
 
+Console.ReadKey();
 
-Console.ReadLine();
+
+
+
+
 
 
 
