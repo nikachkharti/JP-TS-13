@@ -4,7 +4,11 @@ string[] rawData = File.ReadAllLines(@"../../../vehicles.csv");
 Vehicle[] parsedCars = Algorithms.Select(rawData);
 
 
-Console.ReadKey();
+var economicCars = Algorithms.Sort(parsedCars);
+
+
+Console.ReadLine();
+
 
 
 
