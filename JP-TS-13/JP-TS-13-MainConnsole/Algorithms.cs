@@ -1,12 +1,23 @@
 ﻿namespace JP_TS_13_MainConnsole
 {
+    //ჩემი დელეგატები
+
+    //public delegate bool CompareDelegate(int parameter);
+    //public delegate bool CarCompareDelegate(Vehicle parameter);
+    //delegate int OperationDelegate(int arg1, int arg2);
+    //delegate void VoidDelegate();
+
+
+
+    // ჩაშენებული დელეგატები
+
+    //Action - ინიჭებს ისეთ ფუნქციას რომელიც არის void ტიპის,
+    //Func - ინიჭებს ისეთ ფუნქციას რომელიც რაიმე პარამეტრს აბრუნებს,
+    //Predicate - ინიჭებს ისეთ ფუნქციას რომელიც კონკრეტულად Boolean -ს აბრუნებს
+
+
     public static class Algorithms
     {
-        /// <summary>
-        /// გარდაქმნის string -ის მასივს მანქანის მასივად
-        /// </summary>
-        /// <param name="collection">რაც უნდა გარდაიქმნას</param>
-        /// <returns>მანქანების მასივს</returns>
         public static Vehicle[] Select(string[] collection)
         {
             Vehicle[] result = new Vehicle[collection.Length];
@@ -17,27 +28,6 @@
 
             return result;
         }
-
-        /// <summary>
-        /// ეძებს ყველა მანქანას გადაცემული პარამეტრის მიხედვით
-        /// </summary>
-        /// <param name="carsCollection">სადაც ეძებს</param>
-        /// <param name="name">გადაცემული პარამეტრი (რასაც ეძებს)</param>
-        /// <returns>მანქანების მასივს</returns>
-        public static Vehicle[] FindAll(Vehicle[] carsCollection, string name)
-        {
-            List<Vehicle> result = new();
-            for (int i = 0; i < carsCollection.Length; i++)
-            {
-                if (carsCollection[i].Make.Contains(name))
-                {
-                    result.Add(carsCollection[i]);
-                }
-            }
-
-            return result.ToArray();
-        }
-
         public static Vehicle[] Sort(Vehicle[] collection)
         {
             for (int i = 0; i < collection.Length - 1; i++)
@@ -56,11 +46,25 @@
             return collection;
         }
 
-        public static int FindIndex(int[] collection, int value)
+
+        public static Vehicle[] FindAll(Vehicle[] carsCollection, Predicate<Vehicle> comparer)
+        {
+            List<Vehicle> result = new();
+            for (int i = 0; i < carsCollection.Length; i++)
+            {
+                if (comparer(carsCollection[i]))
+                {
+                    result.Add(carsCollection[i]);
+                }
+            }
+
+            return result.ToArray();
+        }
+        public static int FindIndex(int[] collection, Func<int, bool> comparer)
         {
             for (int i = 0; i < collection.Length; i++)
             {
-                if (value == collection[i])
+                if (comparer(collection[i]))
                 {
                     return i;
                 }
@@ -68,25 +72,22 @@
 
             return -1;
         }
-
-        public static int FirstOrDefault(int[] collection, int value)
+        public static int LastOrDefault(int[] collection, Func<int, bool> compareDelegate)
         {
-            for (int i = 0; i < collection.Length; i++)
+            for (int i = collection.Length - 1; i >= 0; i--)
             {
-                if (collection[i] == value)
+                if (compareDelegate(collection[i]))
                 {
                     return collection[i];
                 }
             }
-
             return default;
         }
-
-        public static int LastOrDefault(int[]collection,int value)
+        public static int FirstOrDefault(List<int> collection, Func<int, bool> compareDelegate)
         {
-            for (int i = collection.Length - 1; i >= 0; i--)
+            for (int i = 0; i < collection.Count; i++)
             {
-                if (collection[i] == value)
+                if (compareDelegate(collection[i]))
                 {
                     return collection[i];
                 }
