@@ -45,6 +45,8 @@
 
             return collection;
         }
+
+
         public static Vehicle[] FindAll(Vehicle[] carsCollection, Predicate<Vehicle> comparer)
         {
             List<Vehicle> result = new();
@@ -58,7 +60,8 @@
 
             return result.ToArray();
         }
-        public static int FindIndex(int[] collection, Func<int, bool> comparer)
+
+        public static int FindIndex<T>(T[] collection, Func<T, bool> comparer)
         {
             for (int i = 0; i < collection.Length; i++)
             {
@@ -70,18 +73,6 @@
 
             return -1;
         }
-        public static int LastOrDefault(int[] collection, Func<int, bool> compareDelegate)
-        {
-            for (int i = collection.Length - 1; i >= 0; i--)
-            {
-                if (compareDelegate(collection[i]))
-                {
-                    return collection[i];
-                }
-            }
-            return default;
-        }
-
         public static int FindLastIndex<T>(List<T> collection, Func<T, bool> predicate)
         {
             for (int i = collection.Count - 1; i >= 0; i--)
@@ -93,8 +84,7 @@
             }
             return -1;
         }
-
-        public static int FirstOrDefault(List<int> collection, Func<int, bool> compareDelegate)
+        public static T FirstOrDefault<T>(List<T> collection, Func<T, bool> compareDelegate)
         {
             for (int i = 0; i < collection.Count; i++)
             {
@@ -105,5 +95,17 @@
             }
             return default;
         }
+        public static T LastOrDefault<T>(T[] collection, Func<T, bool> compareDelegate)
+        {
+            for (int i = collection.Length - 1; i >= 0; i--)
+            {
+                if (compareDelegate(collection[i]))
+                {
+                    return collection[i];
+                }
+            }
+            return default;
+        }
+
     }
 }
