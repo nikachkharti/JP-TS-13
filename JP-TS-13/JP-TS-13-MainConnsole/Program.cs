@@ -1,16 +1,32 @@
 ﻿using JP_TS_13_MainConnsole;
 
 
-List<int> intList = new List<int>() { 1, 2, 3, 1, 4, -5, -10 };
-List<string> names = new() { "Nika", "Giorgi", "Daviti", "Elene", "Nika", "Irakli", "Jemali" };
-string[] namesArray = { "Nika", "Giorgi", "Daviti", "Elene", "Nika", "Irakli", "Jemali" };
+//int[] intList = { 10, 1, 1, 2 };
+//List<string> names = new() { "Nika", "Giorgi", "Daviti", "Elene", "Nika", "Irakli", "Jemali" };
+//string[] namesArray = { "Nika", "Giorgi", "Daviti", "Elene", "Nika", "Irakli", "Jemali" };
+
+string[] carsAsStrings = File.ReadAllLines(@"../../../vehicles.csv");
+Vehicle[] cars = Algorithms.Select(carsAsStrings, Vehicle.Parse);
+var bmws = Algorithms.FindAll(cars, x => x.Make.Contains("BMW"));
+
+var economicCars = Algorithms.Sort(cars, (x, y) => x.Combined > y.Combined);
+var topTenEconomicCars = Algorithms.Take(economicCars, 100000);
 
 
 
-var result = Algorithms.FindIndex(namesArray, x => x.EndsWith('i'));
 
 
-Console.ReadLine();
+Console.ReadKey();
+
+
+
+
+
+
+
+
+
+
 
 
 

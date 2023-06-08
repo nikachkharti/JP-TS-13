@@ -18,25 +18,28 @@
 
     public static class Algorithms
     {
-        public static Vehicle[] Select(string[] collection)
+        public static List<T> Take<T>(T[] collection, int count)
         {
-            Vehicle[] result = new Vehicle[collection.Length];
-            for (int i = 0; i < collection.Length; i++)
+            if (count > collection.Length)
+                throw new ArgumentOutOfRangeException();
+
+            List<T> result = new();
+            for (int i = 0; i < count; i++)
             {
-                result[i] = Vehicle.Parse(collection[i]);
+                result.Add(collection[i]);
             }
 
             return result;
         }
-        public static Vehicle[] Sort(Vehicle[] collection)
+        public static T[] Sort<T>(T[] collection, Func<T, T, bool> comparer)
         {
             for (int i = 0; i < collection.Length - 1; i++)
             {
                 for (int j = i + 1; j < collection.Length; j++)
                 {
-                    if (collection[j].Combined > collection[i].Combined)
+                    if (comparer(collection[j], collection[i]))
                     {
-                        Vehicle t = collection[j];
+                        T t = collection[j];
                         collection[j] = collection[i];
                         collection[i] = t;
                     }
@@ -45,11 +48,19 @@
 
             return collection;
         }
-
-
-        public static Vehicle[] FindAll(Vehicle[] carsCollection, Predicate<Vehicle> comparer)
+        public static TResult[] Select<TSource, TResult>(TSource[] collection, Func<TSource, TResult> selector)
         {
-            List<Vehicle> result = new();
+            TResult[] result = new TResult[collection.Length];
+            for (int i = 0; i < collection.Length; i++)
+            {
+                result[i] = selector(collection[i]);
+            }
+
+            return result;
+        }
+        public static T[] FindAll<T>(T[] carsCollection, Predicate<T> comparer)
+        {
+            List<T> result = new();
             for (int i = 0; i < carsCollection.Length; i++)
             {
                 if (comparer(carsCollection[i]))
@@ -60,7 +71,6 @@
 
             return result.ToArray();
         }
-
         public static int FindIndex<T>(T[] collection, Func<T, bool> comparer)
         {
             for (int i = 0; i < collection.Length; i++)
@@ -107,5 +117,9 @@
             return default;
         }
 
+
+        // დაწერეთ უნიკალური ელემენტის პოვნის ფუნქცია სახელად Distinct უნდა იყოს ჯენერიკი ანუ არ იყოს ტიპზე დამოკიდებული.
+        // დაწერეთ ფუნქცია Any რომელიც გაარკვევს ლისტის რომელიმე ელემენტი აკმაყოფილებს თუ არა გადაცემულ პირობას. (ჯენერიკი)
+        // დაწერეთ ფუნქცია All რომელიც გაარკვევს ლისტის ყველა ელემენტი აკმაყოფილებს თუ არა გადაცემულ პირობას. (ჯენერიკი)
     }
 }
