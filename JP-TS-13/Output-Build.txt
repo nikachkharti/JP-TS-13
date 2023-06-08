@@ -1,0 +1,5 @@
+﻿Build started...
+1>------ Build started: Project: JP-TS-13-MainConnsole, Configuration: Debug Any CPU ------
+1>Skipping analyzers to speed up the build. You can execute 'Build' or 'Rebuild' command to run analyzers.
+1>JP-TS-13-MainConnsole -> C:\Users\Admin\source\repos\JP-TS-13\JP-TS-13\JP-TS-13-MainConnsole\bin\Debug\net6.0\JP-TS-13-MainConnsole.dll
+========== Build: 1 succeeded, 0 failed, 0 up-to-date, 0 skipped ==========

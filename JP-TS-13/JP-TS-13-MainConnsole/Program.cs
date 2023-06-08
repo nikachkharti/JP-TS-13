@@ -1,10 +1,19 @@
 ﻿using JP_TS_13_MainConnsole;
 
 
-int[] intAr = { 1, 2, 3, 10, 5, 4 };
-
-var result = Algorithms.FindIndex(intAr, x => x < 0);
-
+List<int> intList = new List<int>() { 1, 2, 3, 1, 4 };
+List<string> names = new() { "Nika", "Giorgi", "Daviti", "Elene", "Nika", "Irakli", "Jemali" };
 
 
-Console.WriteLine(result);
+
+
+
+
+
+
+
+
+
+
+
+
