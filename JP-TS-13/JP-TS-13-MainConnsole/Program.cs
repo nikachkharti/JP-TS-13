@@ -40,6 +40,29 @@ lect1.IntroduceYourself();
 void Greetings(Person obj) => Console.WriteLine($"Hello {obj.FirstName} {obj.LastName}");
 
 
+abstract class Bird
+{
+    public abstract void Fly();
+}
+
+class Eagle : Bird
+{
+    public override void Fly()
+    {
+        Console.WriteLine("HIGH FLYING...");
+    }
+}
+
+class Penguin : Bird
+{
+    public override void Fly()
+    {
+        throw new NotImplementedException();
+    }
+}
+
+
+
 abstract class Person
 {
     public string FirstName { get; set; }
