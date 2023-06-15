@@ -127,8 +127,10 @@ using JP_TS_13_MainConnsole.Shooter.Weapons;
 
 
 
-//1.მყავდეს მოთამაშე Player (სახელი,სიცოცხლე,ფული, იარაღის ყიდვა(BuyWeapon))
-//2.abstract იარაღი Weapon(დასახელება,ფასი,Damage)
+//1.მყავდეს მოთამაშე Player (სახელი,სიცოცხლე,ფული, იარაღის ყიდვა(BuyWeapon)) DONE
+//2.abstract იარაღი Weapon(დასახელება,ფასი,Damage) DONE
+//3.დაამატეთ ლოგიკა სადაც player-ს შეეძლება იარაღის გასროლა და მეორე player-ისთვის სიცოცხლის დაკლება.
+
 
 
 Player playerNika = new()
