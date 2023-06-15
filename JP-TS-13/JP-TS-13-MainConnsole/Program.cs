@@ -1,7 +1,6 @@
 ﻿using JP_TS_13_MainConnsole;
 using JP_TS_13_MainConnsole.Shooter;
 using JP_TS_13_MainConnsole.Shooter.Weapons;
-
 #region Abstract class,Inheritence lecture code
 
 
@@ -127,19 +126,19 @@ using JP_TS_13_MainConnsole.Shooter.Weapons;
 
 
 
-//1.მყავდეს მოთამაშე Player (სახელი,სიცოცხლე,ფული, იარაღის ყიდვა(BuyWeapon)) DONE
-//2.abstract იარაღი Weapon(დასახელება,ფასი,Damage) DONE
-//3.დაამატეთ ლოგიკა სადაც player-ს შეეძლება იარაღის გასროლა და მეორე player-ისთვის სიცოცხლის დაკლება.
-
+//1.დაამატეთ იარაღის გადატენვის ლოგიკა
+//2.დაამატეთ ტყვიების ფუნქციონალი
 
 
 Player playerNika = new()
 {
+    Status = Status.Terrorist,
     Name = "Nika"
 };
 
 Player playerGiorgi = new()
 {
+    Status = Status.CounterTerrorist,
     Name = "Giorgi"
 };
 
@@ -156,5 +155,7 @@ playerNika.DisplayInfo();
 playerGiorgi.DisplayInfo();
 
 
-
-
+Console.WriteLine("----------------------------------");
+playerNika.Shoot(playerGiorgi);
+playerNika.DisplayInfo();
+playerGiorgi.DisplayInfo();
