@@ -94,17 +94,23 @@
             }
             return -1;
         }
-        public static T MyFirstOrDefault<T>(this List<T> collection, Func<T, bool> compareDelegate)
+
+        public static T MyFirstOrDefault<T>(this IEnumerable<T> collection, Func<T, bool> compareDelegate)
         {
-            for (int i = 0; i < collection.Count; i++)
+            foreach (var item in collection)
             {
-                if (compareDelegate(collection[i]))
+                if (compareDelegate(item))
                 {
-                    return collection[i];
+                    return item;
                 }
             }
             return default;
         }
+
+
+
+
+
         public static T MyLastOrDefault<T>(this T[] collection, Func<T, bool> compareDelegate)
         {
             for (int i = collection.Length - 1; i >= 0; i--)

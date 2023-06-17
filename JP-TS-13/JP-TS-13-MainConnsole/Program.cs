@@ -222,22 +222,30 @@ playerGiorgi.DisplayInfo();
 //}
 
 
+//List<int> intList = new() { 1, 2, 3 };
+
+//HashSet<int> set = new();
+//set.Add(1);
+
+//Dictionary<string, string> dict = new();
+//dict.Add("CHemi saxeli", "Nika");
+//dict.Add("sxvisi saxeli", "Grigi");
+
+
+//Stack<int> intStack = new();
+//intStack.Push(10);
+//intStack.Push(20);
+//intStack.Push(30);
+
+
 List<int> intList = new() { 1, 2, 3 };
-
-HashSet<int> set = new();
-set.Add(1);
-
-Dictionary<string, string> dict = new();
-dict.Add("CHemi saxeli", "Nika");
-dict.Add("sxvisi saxeli", "Grigi");
+HashSet<int> intset = new() { 1, 2, 3 };
+int[] intArray = { 1, 2, 3 };
 
 
-Stack<int> intStack = new();
-intStack.Push(10);
-intStack.Push(20);
-intStack.Push(30);
+var a = intList.GetEnumerator();
 
-
+//Algorithms.MyFirstOrDefault(intset, x => x == 12);
 
 
 
