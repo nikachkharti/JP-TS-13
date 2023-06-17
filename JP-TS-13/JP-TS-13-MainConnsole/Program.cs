@@ -124,8 +124,9 @@ using JP_TS_13_MainConnsole.Shooter.Weapons;
 
 #endregion
 
+#region Shooter
 
-
+/*
 //1.დაამატეთ იარაღის გადატენვის ლოგიკა
 //2.დაამატეთ ტყვიების ფუნქციონალი
 
@@ -159,3 +160,7 @@ Console.WriteLine("----------------------------------");
 playerNika.Shoot(playerGiorgi);
 playerNika.DisplayInfo();
 playerGiorgi.DisplayInfo();
+
+*/
+
+#endregion
