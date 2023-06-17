@@ -164,3 +164,88 @@ playerGiorgi.DisplayInfo();
 */
 
 #endregion
+
+
+
+#region Interfaces
+
+
+
+//ChooseTarget(new Eagle() { Name = "Nika" });
+
+
+
+
+//void ChooseTarget(IBird chosenTarget)
+//{
+//    Console.WriteLine($"TARGET IS {chosenTarget.Name}");
+//}
+
+
+
+//interface IBird
+//{
+//    public string Name { get; set; }
+//}
+//interface IFlyer
+//{
+//    public void Fly();
+//}
+
+//class Eagle : IBird, IFlyer
+//{
+//    public string Name { get; set; }
+
+//    public void Fly()
+//    {
+//        Console.WriteLine("FLYING HIGH");
+//    }
+//}
+
+//class Penguin : IBird
+//{
+//    public string Name { get; set; }
+//}
+
+//class Crow : IBird, IFlyer
+//{
+//    public string Name { get; set; }
+//    public void Fly()
+//    {
+//        Console.WriteLine("CROW FLYING");
+//    }
+//}
+
+//class Chicken : IBird
+//{
+//    public string Name { get; set; }
+//}
+
+
+List<int> intList = new() { 1, 2, 3 };
+
+HashSet<int> set = new();
+set.Add(1);
+
+Dictionary<string, string> dict = new();
+dict.Add("CHemi saxeli", "Nika");
+dict.Add("sxvisi saxeli", "Grigi");
+
+
+Stack<int> intStack = new();
+intStack.Push(10);
+intStack.Push(20);
+intStack.Push(30);
+
+
+
+
+
+
+
+Console.ReadLine();
+
+
+
+
+#endregion
