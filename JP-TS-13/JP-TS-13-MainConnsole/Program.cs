@@ -245,7 +245,9 @@ int[] intArray = { 1, 2, 3 };
 
 var a = intList.GetEnumerator();
 
-//Algorithms.MyFirstOrDefault(intset, x => x == 12);
+List<string> n = new() { "1", "2", "3" };
+
+var x = Algorithms.MySelect(n, int.Parse);
 
 
 

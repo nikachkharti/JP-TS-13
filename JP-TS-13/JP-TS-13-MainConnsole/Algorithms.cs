@@ -48,15 +48,12 @@
 
             return collection;
         }
-        public static TResult[] MySelect<TSource, TResult>(this TSource[] collection, Func<TSource, TResult> selector)
+        public static IEnumerable<TResult> MySelect<TSource, TResult>(this IEnumerable<TSource> collection, Func<TSource, TResult> selector)
         {
-            TResult[] result = new TResult[collection.Length];
-            for (int i = 0; i < collection.Length; i++)
+            foreach (var item in collection)
             {
-                result[i] = selector(collection[i]);
+                yield return selector(item);
             }
-
-            return result;
         }
         public static T[] MyFindAll<T>(this T[] carsCollection, Predicate<T> comparer)
         {
@@ -106,7 +103,6 @@
             }
             return default;
         }
-
 
 
 
