@@ -32,12 +32,12 @@ namespace JPTS13Bank.Repositories
         /// <param name="model">ახალი მომხმარებელი</param>
         public void RegisterCustomer(Customer model)
         {
-            //TODO სანამ ფაილში ჩაწერთ მონაცემებს შეამოწმეთ რომ
+            //TODO
+            //1.სანამ ფაილში ჩაწერთ მონაცემებს შეამოწმეთ რომ
             //სახელი იყოს სავალდებულო
             //პირადი ნომერი უნდა იყოს 11 ნიშნა
             //ტელეფონის ნომერი უნდა იყოს 9 ნიშნა
             //ელ-ფოსტა უნდა შეიცავდეს @ და . სიმბოლოებს
-
 
             int maxId = _customers.Max(x => x.Id);
             model.Id = maxId += 1;
