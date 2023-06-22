@@ -238,22 +238,47 @@ playerGiorgi.DisplayInfo();
 //intStack.Push(30);
 
 
-List<int> intList = new() { 1, 2, 3 };
-HashSet<int> intset = new() { 1, 2, 3 };
-int[] intArray = { 1, 2, 3 };
+//List<int> intList = new() { 1, 2, 3 };
+//HashSet<int> intset = new() { 1, 2, 3 };
+//int[] intArray = { 1, 2, 3 };
 
 
-var a = intList.GetEnumerator();
+//var a = intList.GetEnumerator();
 
-List<string> n = new() { "1", "2", "3" };
+//List<string> n = new() { "1", "2", "3" };
 
-var x = Algorithms.MySelect(n, int.Parse);
-
-
+//var x = Algorithms.MySelect(n, int.Parse);
 
 
 
-Console.ReadLine();
+
+
+//Console.ReadLine();
+
+
+
+
+#endregion
+
+
+
+#region Operator overloads
+
+//int x = 10;
+//int y = 10;
+
+//Console.WriteLine(x + y);
+//Console.WriteLine(x - y);
+//Console.WriteLine(x * y);
+//Console.WriteLine(x / y);
+
+
+Vehicle v1 = Vehicle.Parse("BMW,750il,12,5,Rear-Wheel Drive,Automatic 4-spd,11,13,17");
+Vehicle v2 = Vehicle.Parse("Mercedes,750il,12,5,Rear-Wheel Drive,Automatic 4-spd,11,13,17");
+
+
+Console.WriteLine(v1.Equals(v2));
+
 
 
 

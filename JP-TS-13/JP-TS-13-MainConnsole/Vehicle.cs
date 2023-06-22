@@ -1,4 +1,6 @@
-﻿namespace JP_TS_13_MainConnsole
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace JP_TS_13_MainConnsole
 {
     public class Vehicle
     {
@@ -36,5 +38,58 @@
                 throw new FormatException("Car information is in incorrect format");
             }
         }
+
+        public override bool Equals(object obj)
+        {
+            return new VehicleEquilityComparer().Equals(obj as Vehicle,this);
+        }
+        public override int GetHashCode()
+        {
+            return new VehicleEquilityComparer().GetHashCode(this);
+        }
+
+        public static int operator +(Vehicle v1, Vehicle v2)
+        {
+            return v1.Combined + v2.Combined;
+        }
+
+        public static int operator -(Vehicle v1, Vehicle v2)
+        {
+            return v1.Combined - v2.Combined;
+        }
+
+        public static int operator *(Vehicle v1, Vehicle v2)
+        {
+            return v1.Combined * v2.Combined;
+        }
+
+        public static int operator /(Vehicle v1, Vehicle v2)
+        {
+            return v1.Combined / v2.Combined;
+        }
+
+        public static bool operator ==(Vehicle v1, Vehicle v2)
+        {
+            return v1.Make == v2.Make;
+        }
+
+        public static bool operator !=(Vehicle v1, Vehicle v2)
+        {
+            return v1.Make != v2.Make;
+        }
     }
+
+    class VehicleEquilityComparer : IEqualityComparer<Vehicle>
+    {
+        public bool Equals(Vehicle x, Vehicle y)
+        {
+            return x.Make == y.Make;
+        }
+
+        public int GetHashCode([DisallowNull] Vehicle obj)
+        {
+            return obj.Make.Length;
+        }
+    }
+
 }
