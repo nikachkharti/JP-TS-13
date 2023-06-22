@@ -17,16 +17,19 @@ namespace JPTS13Bank.Repositories
         }
 
         /// <summary>
-        /// დაწერეთ ფუნქცია რომელიც _customers ლისტში მოძებნის და დააბრუნებს
-        /// იმ კონკრეტულ customer-ს რომლის ID ემთხვევა გადაცემულ ID -ს.
+        /// მომხმარებლის ძებნა გადაცემული ID -ის მიხედვით
         /// </summary>
         /// <param name="id">გადაცემული ID</param>
         /// <returns>Customer</returns>
         public Customer GetCustomerById(int id)
         {
-            throw new NotImplementedException();
+            return _customers.FirstOrDefault(x => x.Id == id);
         }
 
+        /// <summary>
+        /// მომხმარებლის ჩაწერა ფაილში
+        /// </summary>
+        /// <param name="model">ახალი მომხმარებელი</param>
         public void RegisterCustomer(Customer model)
         {
             throw new NotImplementedException();
