@@ -12,6 +12,9 @@
 
     internal static class CustomerExtension
     {
+        internal static string ToCsv(this Customer input) =>
+            $",\n{input.Id},{input.Name},{input.IdentityNumber},{input.PhoneNumber},{input.Email},{input.Type}".Trim();
+
         internal static Customer ToCustomer(this string input)
         {
             string[] csvInput = input.Split(',');

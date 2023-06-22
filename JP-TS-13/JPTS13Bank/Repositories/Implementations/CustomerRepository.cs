@@ -32,7 +32,17 @@ namespace JPTS13Bank.Repositories
         /// <param name="model">ახალი მომხმარებელი</param>
         public void RegisterCustomer(Customer model)
         {
-            throw new NotImplementedException();
+            //TODO სანამ ფაილში ჩაწერთ მონაცემებს შეამოწმეთ რომ
+            //სახელი იყოს სავალდებულო
+            //პირადი ნომერი უნდა იყოს 11 ნიშნა
+            //ტელეფონის ნომერი უნდა იყოს 9 ნიშნა
+            //ელ-ფოსტა უნდა შეიცავდეს @ და . სიმბოლოებს
+
+
+            int maxId = _customers.Max(x => x.Id);
+            model.Id = maxId += 1;
+            _customers.Add(model);
+            File.AppendAllText(_filePath, model.ToCsv());
         }
     }
 }
