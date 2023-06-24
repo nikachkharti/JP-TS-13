@@ -2,14 +2,21 @@
 using JPTS13Bank.Repositories;
 
 CustomerRepository repo = new();
-repo.RegisterCustomer(new Customer
+
+
+
+Customer newCustomer2 = new Customer
 {
-    Name = "Nika",
-    Email = "nika@gmail.com",
-    IdentityNumber = "123456789456",
-    PhoneNumber = "555887744",
+    Name = "Giorgi",
+    Email = "Giorgi@gmail.com",
+    IdentityNumber = "12345678945",
+    PhoneNumber = "555337681",
     Type = CustomerType.Phyiscial
-});
+};
+
+
+
+repo.RegisterCustomer(newCustomer2);
 
 
 Console.ReadLine();

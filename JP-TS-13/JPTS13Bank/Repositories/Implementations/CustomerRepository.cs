@@ -1,4 +1,5 @@
-﻿using JPTS13Bank.Models;
+﻿using JPTS13Bank.CustomExceptions;
+using JPTS13Bank.Models;
 using JPTS13Bank.Repositories.Interfaces;
 
 namespace JPTS13Bank.Repositories
@@ -32,17 +33,43 @@ namespace JPTS13Bank.Repositories
         /// <param name="model">ახალი მომხმარებელი</param>
         public void RegisterCustomer(Customer model)
         {
-            //TODO
-            //1.სანამ ფაილში ჩაწერთ მონაცემებს შეამოწმეთ რომ
-            //სახელი იყოს სავალდებულო
-            //პირადი ნომერი უნდა იყოს 11 ნიშნა
-            //ტელეფონის ნომერი უნდა იყოს 9 ნიშნა
-            //ელ-ფოსტა უნდა შეიცავდეს @ და . სიმბოლოებს
-
-            int maxId = _customers.Max(x => x.Id);
-            model.Id = maxId += 1;
-            _customers.Add(model);
-            File.AppendAllText(_filePath, model.ToCsv());
+            if (CustomerIsValid(model) && !_customers.Any(x => x.Equals(model)))
+            {
+                int maxId = _customers.Max(x => x.Id);
+                model.Id = maxId += 1;
+                _customers.Add(model);
+                File.AppendAllText(_filePath, model.ToCsv());
+            }
+            else
+            {
+                throw new InvalidCustomerException("Model data is invalid");
+            }
         }
+
+
+        private bool CustomerIsValid(Customer modelToCheck)
+        {
+            bool result = true;
+
+            if (string.IsNullOrWhiteSpace(modelToCheck.Name))
+            {
+                result = false;
+            }
+            else if (modelToCheck.IdentityNumber.Length != 11)
+            {
+                result = false;
+            }
+            else if (modelToCheck.PhoneNumber.Length != 9)
+            {
+                result = false;
+            }
+            else if (!modelToCheck.Email.Contains('@') && !modelToCheck.Email.Contains('.'))
+            {
+                result = false;
+            }
+
+            return result;
+        }
+
     }
 }
