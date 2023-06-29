@@ -23,6 +23,7 @@ Account accountForCustomer2 = new Account()
     Iban = "GE12345678945612345874",
     Currency = "GEL",
     Balance = 100,
+    Name = string.Empty,
     CustomerId = 21
 };
 

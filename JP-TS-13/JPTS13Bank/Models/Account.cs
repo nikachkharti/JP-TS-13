@@ -9,13 +9,14 @@ namespace JPTS13Bank.Models
         public string Currency { get; set; }
         public decimal Balance { get; set; }
         public int CustomerId { get; set; }
+        public string Name { get; set; }
         public Customer Customer { get; set; }
     }
 
     internal static class AccountExtension
     {
         internal static string ToCsv(this Account input) =>
-           $"\n{input.Id},{input.Iban},{input.Currency},{input.Balance},{input.CustomerId}";
+           $"\n{input.Id},{input.Iban},{input.Currency},{input.Balance},{input.CustomerId},{input.Name}";
 
         internal static Account ToAccount(this string input)
         {
@@ -27,6 +28,7 @@ namespace JPTS13Bank.Models
             result.Currency = csvInput[2];
             result.Balance = decimal.Parse(csvInput[3]);
             result.CustomerId = int.Parse(csvInput[4]);
+            result.Name = csvInput[5];
             result.Customer = FindCustomer(result.CustomerId);
 
             return result;
