@@ -1,4 +1,5 @@
 ﻿using JPTS13Bank.Repositories;
+using System.Diagnostics.CodeAnalysis;
 
 namespace JPTS13Bank.Models
 {
@@ -11,7 +12,25 @@ namespace JPTS13Bank.Models
         public int CustomerId { get; set; }
         public string Name { get; set; }
         public Customer Customer { get; set; }
+
+        public override bool Equals(object obj)
+        {
+            return new AccountEquilityComparer().Equals(this, obj as Account);
+        }
+
+        public override int GetHashCode()
+        {
+            return new AccountEquilityComparer().GetHashCode(this);
+        }
     }
+
+
+    class AccountEquilityComparer : IEqualityComparer<Account>
+    {
+        public bool Equals(Account x, Account y) => x.Iban == y.Iban;
+        public int GetHashCode(Account obj) => obj.Iban.Length;
+    }
+
 
     internal static class AccountExtension
     {

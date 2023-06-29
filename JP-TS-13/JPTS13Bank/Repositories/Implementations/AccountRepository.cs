@@ -1,4 +1,5 @@
-﻿using JPTS13Bank.Models;
+﻿using JPTS13Bank.CustomExceptions;
+using JPTS13Bank.Models;
 using JPTS13Bank.Repositories.Interfaces;
 
 namespace JPTS13Bank.Repositories.Implementations
@@ -35,10 +36,17 @@ namespace JPTS13Bank.Repositories.Implementations
 
         public void RegisterAccount(Account model)
         {
-            int maxId = _accounts.Max(x => x.Id);
-            model.Id = maxId += 1;
-            _accounts.Add(model);
-            File.AppendAllText(_filePath, model.ToCsv());
+            if (!_accounts.Any(x => x.Equals(model)))
+            {
+                int maxId = _accounts.Max(x => x.Id);
+                model.Id = maxId += 1;
+                _accounts.Add(model);
+                File.AppendAllText(_filePath, model.ToCsv());
+            }
+            else
+            {
+                throw new InvalidAccountException("Account is not unique");
+            }
         }
     }
 }
