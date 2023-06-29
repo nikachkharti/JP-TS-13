@@ -17,6 +17,17 @@ namespace JPTS13Bank.Repositories
                 .ToList();
         }
 
+        public List<Customer> GetAllCustomers()
+        {
+            _customers = File
+                .ReadAllLines(_filePath)
+                .Skip(1)
+                .Select(x => x.ToCustomer())
+                .ToList();
+
+            return _customers;
+        }
+
         /// <summary>
         /// მომხმარებლის ძებნა გადაცემული ID -ის მიხედვით
         /// </summary>
