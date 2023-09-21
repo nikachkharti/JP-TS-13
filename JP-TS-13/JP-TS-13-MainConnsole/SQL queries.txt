@@ -1,0 +1,85 @@
+https://github.com/nikachkharti/JP-TS-13
+
+
+
+--CREATE DATABASE JPTS13
+--USE JPTS13
+
+
+--string ტექსტური
+
+--CHAR -- არ აღიქვამს ქართულ სიმბოლოებს, არ არის ოპტიმალური
+--NCHAR -- აღიქვამს ქართულ სიმბოლოებს, არ არის ოპტიმალური
+--VARCHAR -- არ აღიქვამს ქართულ სიმბოლოებს, არის ოპტიმალური
+--NVARCHAR -- აღიქვამს ქართულ სიმბოლოებს, არის ოპტიმალური
+
+
+--byte int long - მთელი რიცხვები
+
+--BIT
+--TINYINT
+--SMALLINT
+--INT
+--BIGINT
+
+--float double decimal ათწილადი
+
+--REAL
+--FLOAT
+--DOUBLE
+--SMALLMONEY
+--MONEY
+
+--bool true false
+--BIT
+
+
+--DateTime
+
+--DATE
+--TIME
+--DATETIME
+--DATETIME2
+
+CREATE TABLE Students
+(
+	FirstName NVARCHAR(50) NOT NULL,
+	LastName NVARCHAR(50) NOT NULL,
+	Age INT NOT NULL,
+	Score FLOAT NOT NULL,
+	BirthDate DATE NOT NULL,
+	Attends BIT NOT NULL
+)
+
+--ALTER TABLE Students
+--ALTER COLUMN FirstName NVARCHAR NOT NULL
+--ALTER COLUMN LastName NVARCHAR NOT NULL
+--ALTER COLUMN Age INT NOT NULL
+--ALTER COLUMN Score FLOAT NOT NULL
+--ALTER COLUMN BirthDate DATE NOT NULL
+--ALTER COLUMN Attends BIT NOT NULL
+
+
+
+
+INSERT INTO Students(FirstName,LastName,Age,Score,BirthDate,Attends)
+VALUES
+--('ირაკლი','ბერძენიშვილი',16,8.2,'2000-12-12',1)
+--(N'ლუკა',N'გაჩეჩილაძე',16,8.2,'2000-12-12',1)
+(NULL,N'დოლიძე',16,8.2,'2000-12-12',1)
+
+
+SELECT
+	*
+FROM Students
+
+
+UPDATE Students
+SET
+FirstName = N'ირაკლი',
+LastName = N'ბერძენიშვილი'
+
+
+
+DELETE FROM Students
+
