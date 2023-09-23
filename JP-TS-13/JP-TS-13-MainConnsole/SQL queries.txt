@@ -109,3 +109,32 @@ VALUES
 (N'ლუკა',N'შენგელია','2000-12-12','luka@gmail.com','555337681'),
 (N'დავით',N'დავითიძე','2002-02-11','david@gmail.com','555337682'),
 (N'გიორგი',N'ჯიბლაძე','2001-08-23','gio@gmail.com','555337683')
+
+
+SELECT TOP 1
+	*
+FROM Students
+
+
+SELECT
+	*
+FROM Students
+ORDER BY Age
+
+
+SELECT
+	*
+FROM Students
+ORDER BY Age DESC
+
+
+SELECT
+	FistName,
+	LastName,
+	SUBSTRING(FistName,1,1) + '.' + SUBSTRING(LastName,1,1) + '.' Initials
+FROM Students
+
+SELECT
+	*
+FROM Students
+WHERE LastName LIKE N'%ძე%'
