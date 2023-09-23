@@ -83,3 +83,29 @@ LastName = N'ბერძენიშვილი'
 
 DELETE FROM Students
 
+
+
+
+
+ლექცია 2
+
+
+CREATE TABLE Students
+(
+	Id INT PRIMARY KEY IDENTITY NOT NULL,
+	FistName NVARCHAR(100) NOT NULL,
+	LastName NVARCHAR(100) NOT NULL,
+	FullName AS FistName + ' ' + LastName,
+	DateOfBirth DATETIME NOT NULL,
+	Age AS YEAR(GETDATE())-YEAR(DateOfBirth),
+	Email VARCHAR(70) NOT NULL,
+	PhoneNumber CHAR(9) NOT NULL,
+	GroupId VARCHAR(20) DEFAULT('JP-TS-13') NOT NULL
+)
+
+
+INSERT INTO Students(FistName,LastName,DateOfBirth,Email,PhoneNumber)
+VALUES
+(N'ლუკა',N'შენგელია','2000-12-12','luka@gmail.com','555337681'),
+(N'დავით',N'დავითიძე','2002-02-11','david@gmail.com','555337682'),
+(N'გიორგი',N'ჯიბლაძე','2001-08-23','gio@gmail.com','555337683')
