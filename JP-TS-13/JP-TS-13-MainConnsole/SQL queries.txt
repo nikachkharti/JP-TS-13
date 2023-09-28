@@ -138,3 +138,29 @@ SELECT
 	*
 FROM Students
 WHERE LastName LIKE N'%ძე%'
+
+
+
+
+
+ლექცია 3
+
+
+
+SELECT
+	*
+FROM Film
+WHERE Title LIKE '[B-G]%'
+ORDER BY
+	FilmID,
+	Title
+
+
+	DECLARE @currentMonth INT = MONTH(GETDATE())
+DECLARE @currentDay INT = DAY(GETDATE())
+SELECT
+	*
+FROM Film
+WHERE
+	MONTH(ReleaseDate) = @currentMonth AND
+	DAY(ReleaseDate) = @currentDay
