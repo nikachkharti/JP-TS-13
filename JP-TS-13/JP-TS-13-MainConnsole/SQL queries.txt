@@ -292,3 +292,27 @@ SELECT
 	Number,
 	NameEng
 FROM NumbersEN
+
+
+SELECT [FilmID]
+      ,[Title]
+      ,[ReleaseDate]
+      ,Director.FullName
+      ,Studio.Studio
+      ,[Review]
+      ,Country.Country
+      ,[LanguageID]
+      ,[GenreID]
+      ,[RunTimeMinutes]
+      ,[CertificateID]
+      ,[BudgetDollars]
+      ,[BoxOfficeDollars]
+      ,[OscarNominations]
+      ,[OscarWins]
+  FROM [Movies].[dbo].[Film]
+  INNER JOIN Director ON  Film.DirectorID = Director.DirectorID
+  INNER JOIN Studio ON  Film.StudioID = Studio.StudioID
+  INNER JOIN Country ON  Film.CountryID = Country.CountryID
+
+
+
