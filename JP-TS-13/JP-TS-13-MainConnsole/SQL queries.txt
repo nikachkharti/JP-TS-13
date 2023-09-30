@@ -164,3 +164,131 @@ FROM Film
 WHERE
 	MONTH(ReleaseDate) = @currentMonth AND
 	DAY(ReleaseDate) = @currentDay
+
+
+
+
+
+
+
+ლექცია 4
+
+--Aggregate functions
+
+--COUNT
+--COUNT_BIG
+--AVG
+--MAX
+--MIN
+
+SELECT*FROM Actor
+
+SELECT
+	YEAR(ReleaseDate) ReleaseYear,
+	COUNT(*) FilmsCount
+FROM Film
+GROUP BY YEAR(ReleaseDate)
+ORDER BY ReleaseYear
+
+
+
+
+SELECT 
+	COUNT(FirstName) AllActorsName,
+	COUNT(DISTINCT FirstName) UniqueNames
+FROM Actor
+
+
+
+--მოძებნეთ თითოეული რეჟისორის მიერ გადაღებული ფილმების რაოდენობა
+--დაალაგეთ კლებადობის მიხედვით
+
+--მოძებნეთ თითოეული რეჟისორის მიერ გადაღებული ფილმების რაოდენობა
+--დაალაგეთ კლებადობის მიხედვით
+
+--მოძებნეთ თითოეულ ენაზე რამდენი ფილმია გადაღებული
+
+SELECT
+	DirectorID,
+	COUNT(*)
+FROM Film
+GROUP BY DirectorID
+
+SELECT
+	LanguageID AS [Language],
+	COUNT(*) AS Films
+FROM Film
+GROUP BY LanguageID
+ORDER BY Films DESC
+
+--გავიგოთ თითოეულ წელს დაბადებული მსახიობების რაოდენობა
+
+SELECT
+	YEAR(DoB),
+	COUNT(*)
+FROM Actor
+GROUP BY YEAR(DoB)
+
+
+CREATE TABLE NumbersGE
+(
+	Number INT PRIMARY KEY,
+	NameGeo NVARCHAR(30) NULL
+)
+
+
+CREATE TABLE NumbersEN
+(
+	Number INT PRIMARY KEY,
+	NameEng NVARCHAR(30) NULL
+)
+
+INSERT INTO NumbersGE(Number,NameGeo)
+VALUES
+	(1,N'ერთი'),
+	(2,N'ორი'),
+	(3,N'სამი'),
+	(5,N'ხუთი'),
+	(6,N'ექვსი'),
+	(7,N'შვიდი'),
+	(9,N'ცხრა'),
+	(10,N'ათი'),
+	(13,N'ცამეტი'),
+	(15,N'თხუთმეტი')
+
+INSERT INTO NumbersEN(Number,NameEng)
+VALUES
+	(1,N'one'),
+	(2,N'two'),
+	(3,N'three'),
+	(4,N'four'),
+	(6,N'six'),
+	(8,N'eight'),
+	(9,N'nine'),
+	(10,N'ten'),
+	(12,N'thirteen'),
+	(14,N'fifteen')
+
+
+SELECT*FROM NumbersGE
+SELECT*FROM NumbersEN
+
+--INNER JOIN - თანაკვეთა
+--LEFT OUTER JOIN - მარცხენა + თანაკვეთა
+--RIGHT OUTER JOIN - მარჯვენა + თანაკვეთა
+--FULL JOIN
+--CROSS JOIN
+
+SELECT
+	NumbersGE.Number,
+	NameGeo,
+	NumbersEN.Number,
+	NameEng
+FROM NumbersGE
+RIGHT OUTER JOIN NumbersEN ON NumbersGE.Number = NumbersEN.Number
+
+
+SELECT
+	Number,
+	NameEng
+FROM NumbersEN
