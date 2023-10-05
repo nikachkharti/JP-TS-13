@@ -316,3 +316,128 @@ SELECT [FilmID]
 
 
 
+  ლექცია 5
+
+  -- 1 x 1
+-- 1 x M
+-- M x M
+
+
+-- 1 x 1
+CREATE TABLE Countries
+(
+	Id INT PRIMARY KEY IDENTITY NOT NULL,
+	CountryName NVARCHAR(MAX) NOT NULL
+)
+
+INSERT INTO Countries(CountryName)
+VALUES
+(N'საქართველო'),
+(N'აშშ'),
+(N'იტალია')
+
+
+
+CREATE TABLE Capitals
+(
+	Id INT PRIMARY KEY IDENTITY NOT NULL,
+	CapitalName NVARCHAR(MAX) NOT NULL,
+	CountryId INT UNIQUE FOREIGN KEY REFERENCES Countries(Id)
+)
+
+INSERT INTO Capitals(CapitalName,CountryId)
+VALUES
+(N'თბილისი',1),
+(N'ვაშინგტონი',2),
+(N'რომი',3)
+--(N'ნეაპოლი',3)
+
+
+SELECT*FROM Capitals
+SELECT*FROM Countries
+
+
+--1 x M
+
+CREATE TABLE Person
+(
+	Id INT PRIMARY KEY IDENTITY NOT NULL,
+	Name NVARCHAR(MAX) NOT NULL
+)
+
+INSERT INTO Person(Name)
+VALUES
+(N'გიორგი'),
+(N'ნიკა')
+
+
+CREATE TABLE BankAccount
+(
+	Id INT PRIMARY KEY IDENTITY NOT NULL,
+	AccountNumber VARCHAR(MAX) NOT NULL,
+	PersonId INT FOREIGN KEY REFERENCES Person(Id)
+)
+
+INSERT INTO BankAccount(AccountNumber,PersonId)
+VALUES
+('12345',1),
+('1234561',1),
+('1234581',2)
+
+
+SELECT*FROM Person
+SELECT*FROM BankAccount
+
+
+
+
+--M x M
+
+
+CREATE TABLE Authors
+(
+	Id INT PRIMARY KEY IDENTITY NOT NULL,
+	Name NVARCHAR(MAX) NOT NULL,
+)
+
+INSERT INTO Authors (Name)
+VALUES (N'თეოდორ დოსტოევსკი'),
+(N'შოთა რუსთაველი'),
+(N'ნიკა ჩხარტიშვილი'),
+(N'გიორგი გიორგაძე')
+
+
+
+CREATE TABLE Book  
+(
+	Id INT PRIMARY KEY IDENTITY NOT NULL,
+	Title NVARCHAR(MAX) NOT NULL
+)
+
+INSERT INTO Book(Title)
+VALUES (N'იდიოტი'),
+(N'ვეფხისტყაოსანი'),
+(N'ძმები კარამაზოვები'),
+(N'C# საფუძვლები')
+
+
+CREATE TABLE AuthorBook
+(
+	AuthorId INT FOREIGN KEY REFERENCES Authors(Id),
+	BookId INT FOREIGN KEY REFERENCES Book(Id)
+)
+
+INSERT INTO AuthorBook (AuthorId,BookId)
+VALUES
+(1,1),
+(1,3),
+(2,2),
+(3,4),
+(4,4)
+
+
+
+
+
+
+
