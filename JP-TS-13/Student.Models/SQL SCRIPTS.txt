@@ -1,0 +1,17 @@
+--USE JPTS13
+--GO
+
+--CREATE TABLE Students
+--(
+--	Id INT PRIMARY KEY IDENTITY NOT NULL,
+--	FirstName NVARCHAR(50) NOT NULL,
+--	LastName NVARCHAR(50) NOT NULL,
+--	DateOfBirth DATETIME NOT NULL,
+--	Pin CHAR(11) NOT NULL
+--)
+
+--INSERT INTO Students(FirstName,LastName,DateOfBirth,Pin)
+--VALUES
+--(N'გიორგი',N'ჯიბლაძე','2000-12-01','01024587456'),
+--(N'გიორგი',N'ომანაძე','2002-02-12','01024587457'),
+--(N'ლუკა',N'შენგელია','2002-10-31','01024587458')
