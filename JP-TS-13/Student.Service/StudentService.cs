@@ -1,23 +1,31 @@
 ﻿using Microsoft.Data.SqlClient;
 using Student.Models;
-using Student.Service.Interfaces;
+using System.Data;
 
 namespace Student.Service
 {
     public class StudentService : IStudentService
     {
-        public List<StudentModel> GetAll()
+        public List<StudentModel> GetAllStudents()
         {
             List<StudentModel> result = new();
-            const string sqlExpression = "SELECT*FROM Students";
+
+            const string sqlExpression = @"SELECT [Id]
+                                            ,[FirstName]
+                                            ,[LastName]
+                                            ,[DateOfBirth]
+                                            ,[Pin]
+                                          FROM [JPTS13].[dbo].[Students]";
+
 
             using (SqlConnection connection = new(HelperConfig.ConnectionString))
             {
                 try
                 {
                     SqlCommand command = new(sqlExpression, connection);
-
+                    command.CommandType = CommandType.Text;
                     connection.Open();
+
                     SqlDataReader reader = command.ExecuteReader();
 
                     if (reader.HasRows)
@@ -30,7 +38,7 @@ namespace Student.Service
                                 FirstName = reader.GetString(1),
                                 LastName = reader.GetString(2),
                                 DateOfBirth = reader.GetDateTime(3),
-                                Pin = reader.GetString(4),
+                                Pin = reader.GetString(4)
                             });
                         }
                     }
@@ -44,10 +52,14 @@ namespace Student.Service
                 {
                     connection.Close();
                 }
+
+
+                return result;
             }
 
 
-            return result;
+
+
         }
     }
 }

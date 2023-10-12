@@ -1,9 +1,9 @@
 ﻿using Student.Models;
 
-namespace Student.Service.Interfaces
+namespace Student.Service
 {
     public interface IStudentService
     {
-        List<StudentModel> GetAll();
+        List<StudentModel> GetAllStudents();
     }
 }
