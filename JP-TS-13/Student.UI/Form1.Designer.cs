@@ -30,6 +30,7 @@
         {
             this.HelloLabel = new System.Windows.Forms.Label();
             this.showStudentsBtn = new System.Windows.Forms.Button();
+            this.showTeachersBtn = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // HelloLabel
@@ -54,11 +55,23 @@
             this.showStudentsBtn.UseVisualStyleBackColor = true;
             this.showStudentsBtn.Click += new System.EventHandler(this.showStudentsBtn_Click);
             // 
+            // showTeachersBtn
+            // 
+            this.showTeachersBtn.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.showTeachersBtn.Location = new System.Drawing.Point(751, 94);
+            this.showTeachersBtn.Name = "showTeachersBtn";
+            this.showTeachersBtn.Size = new System.Drawing.Size(204, 43);
+            this.showTeachersBtn.TabIndex = 1;
+            this.showTeachersBtn.Text = "მასწავლებლების ჩამოტვირთვა";
+            this.showTeachersBtn.UseVisualStyleBackColor = true;
+            this.showTeachersBtn.Click += new System.EventHandler(this.showTeachersBtn_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1177, 648);
+            this.Controls.Add(this.showTeachersBtn);
             this.Controls.Add(this.showStudentsBtn);
             this.Controls.Add(this.HelloLabel);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
@@ -74,5 +87,6 @@
 
         private Label HelloLabel;
         private Button showStudentsBtn;
+        private Button showTeachersBtn;
     }
 }

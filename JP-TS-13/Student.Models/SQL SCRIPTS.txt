@@ -15,3 +15,20 @@
 --(N'გიორგი',N'ჯიბლაძე','2000-12-01','01024587456'),
 --(N'გიორგი',N'ომანაძე','2002-02-12','01024587457'),
 --(N'ლუკა',N'შენგელია','2002-10-31','01024587458')
+
+
+
+CREATE TABLE Teachers
+(
+	Id INT PRIMARY KEY IDENTITY NOT NULL,
+	FirstName NVARCHAR(50) NOT NULL,
+	LastName NVARCHAR(50) NOT NULL,
+	DateOfBirth DATETIME NOT NULL,
+	Pin CHAR(11) NOT NULL,
+	Salary INT NOT NULL
+)
+
+INSERT INTO Teachers(FirstName,LastName,DateOfBirth,Pin,Salary)
+VALUES
+(N'ნიკა',N'ჩხარტიშვილი','1995-06-04','01024085083',2000),
+(N'შაკო',N'დვალიშვილი','1994-06-04','01024085083',2000)
