@@ -31,6 +31,8 @@
             this.HelloLabel = new System.Windows.Forms.Label();
             this.showStudentsBtn = new System.Windows.Forms.Button();
             this.showTeachersBtn = new System.Windows.Forms.Button();
+            this.studentidValue = new System.Windows.Forms.TextBox();
+            this.getSingleStudentBtn = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // HelloLabel
@@ -66,11 +68,30 @@
             this.showTeachersBtn.UseVisualStyleBackColor = true;
             this.showTeachersBtn.Click += new System.EventHandler(this.showTeachersBtn_Click);
             // 
+            // studentidValue
+            // 
+            this.studentidValue.Location = new System.Drawing.Point(25, 237);
+            this.studentidValue.Name = "studentidValue";
+            this.studentidValue.Size = new System.Drawing.Size(328, 23);
+            this.studentidValue.TabIndex = 2;
+            // 
+            // getSingleStudentBtn
+            // 
+            this.getSingleStudentBtn.Location = new System.Drawing.Point(359, 223);
+            this.getSingleStudentBtn.Name = "getSingleStudentBtn";
+            this.getSingleStudentBtn.Size = new System.Drawing.Size(280, 49);
+            this.getSingleStudentBtn.TabIndex = 3;
+            this.getSingleStudentBtn.Text = "კონკრეტული სტუდენტის ჩამოტვირთვა";
+            this.getSingleStudentBtn.UseVisualStyleBackColor = true;
+            this.getSingleStudentBtn.Click += new System.EventHandler(this.getSingleStudentBtn_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1177, 648);
+            this.Controls.Add(this.getSingleStudentBtn);
+            this.Controls.Add(this.studentidValue);
             this.Controls.Add(this.showTeachersBtn);
             this.Controls.Add(this.showStudentsBtn);
             this.Controls.Add(this.HelloLabel);
@@ -88,5 +109,7 @@
         private Label HelloLabel;
         private Button showStudentsBtn;
         private Button showTeachersBtn;
+        private TextBox studentidValue;
+        private Button getSingleStudentBtn;
     }
 }

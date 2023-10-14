@@ -24,5 +24,10 @@ namespace Student.UI
         {
             var allTeachers = _teacherService.GetAllTeachers();
         }
+
+        private void getSingleStudentBtn_Click(object sender, EventArgs e)
+        {
+            int.TryParse(studentidValue.Text, out int studentId);
+        }
     }
 }
