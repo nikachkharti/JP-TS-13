@@ -1,4 +1,4 @@
-using Student.Service;
+﻿using Student.Service;
 using Student.Service.Interfaces;
 
 namespace Student.UI
@@ -25,9 +25,24 @@ namespace Student.UI
             var allTeachers = _teacherService.GetAllTeachers();
         }
 
-        private void getSingleStudentBtn_Click(object sender, EventArgs e)
+        private void getSingleTeacherBtn_Click(object sender, EventArgs e)
         {
-            int.TryParse(studentidValue.Text, out int studentId);
+            int.TryParse(teacherIdValue.Text, out int teacherId);
+
+            try
+            {
+                var teacher = _teacherService.GetSingleTeacher(teacherId);
+
+                if (teacher != null)
+                {
+                    foundTeacherName.Text = $"{teacher.FirstName} {teacher.LastName}";
+                    foundTeacherName.Visible = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "დაფიქსირდა შეცდომა", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
     }
 }

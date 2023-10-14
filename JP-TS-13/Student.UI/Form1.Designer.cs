@@ -31,8 +31,11 @@
             this.HelloLabel = new System.Windows.Forms.Label();
             this.showStudentsBtn = new System.Windows.Forms.Button();
             this.showTeachersBtn = new System.Windows.Forms.Button();
-            this.studentidValue = new System.Windows.Forms.TextBox();
-            this.getSingleStudentBtn = new System.Windows.Forms.Button();
+            this.teacherIdValue = new System.Windows.Forms.TextBox();
+            this.getSingleTeacherBtn = new System.Windows.Forms.Button();
+            this.foundTeacherName = new System.Windows.Forms.Label();
+            this.TeachersGroup = new System.Windows.Forms.GroupBox();
+            this.TeachersGroup.SuspendLayout();
             this.SuspendLayout();
             // 
             // HelloLabel
@@ -60,45 +63,68 @@
             // showTeachersBtn
             // 
             this.showTeachersBtn.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.showTeachersBtn.Location = new System.Drawing.Point(751, 94);
+            this.showTeachersBtn.Location = new System.Drawing.Point(6, 100);
             this.showTeachersBtn.Name = "showTeachersBtn";
-            this.showTeachersBtn.Size = new System.Drawing.Size(204, 43);
+            this.showTeachersBtn.Size = new System.Drawing.Size(152, 28);
             this.showTeachersBtn.TabIndex = 1;
-            this.showTeachersBtn.Text = "მასწავლებლების ჩამოტვირთვა";
+            this.showTeachersBtn.Text = "ყველა მასწავლებელი";
             this.showTeachersBtn.UseVisualStyleBackColor = true;
             this.showTeachersBtn.Click += new System.EventHandler(this.showTeachersBtn_Click);
             // 
-            // studentidValue
+            // teacherIdValue
             // 
-            this.studentidValue.Location = new System.Drawing.Point(25, 237);
-            this.studentidValue.Name = "studentidValue";
-            this.studentidValue.Size = new System.Drawing.Size(328, 23);
-            this.studentidValue.TabIndex = 2;
+            this.teacherIdValue.Location = new System.Drawing.Point(6, 24);
+            this.teacherIdValue.Name = "teacherIdValue";
+            this.teacherIdValue.Size = new System.Drawing.Size(363, 23);
+            this.teacherIdValue.TabIndex = 2;
             // 
-            // getSingleStudentBtn
+            // getSingleTeacherBtn
             // 
-            this.getSingleStudentBtn.Location = new System.Drawing.Point(359, 223);
-            this.getSingleStudentBtn.Name = "getSingleStudentBtn";
-            this.getSingleStudentBtn.Size = new System.Drawing.Size(280, 49);
-            this.getSingleStudentBtn.TabIndex = 3;
-            this.getSingleStudentBtn.Text = "კონკრეტული სტუდენტის ჩამოტვირთვა";
-            this.getSingleStudentBtn.UseVisualStyleBackColor = true;
-            this.getSingleStudentBtn.Click += new System.EventHandler(this.getSingleStudentBtn_Click);
+            this.getSingleTeacherBtn.Location = new System.Drawing.Point(297, 53);
+            this.getSingleTeacherBtn.Name = "getSingleTeacherBtn";
+            this.getSingleTeacherBtn.Size = new System.Drawing.Size(72, 23);
+            this.getSingleTeacherBtn.TabIndex = 3;
+            this.getSingleTeacherBtn.Text = "ძებნა";
+            this.getSingleTeacherBtn.UseVisualStyleBackColor = true;
+            this.getSingleTeacherBtn.Click += new System.EventHandler(this.getSingleTeacherBtn_Click);
+            // 
+            // foundTeacherName
+            // 
+            this.foundTeacherName.AutoSize = true;
+            this.foundTeacherName.Location = new System.Drawing.Point(6, 57);
+            this.foundTeacherName.Name = "foundTeacherName";
+            this.foundTeacherName.Size = new System.Drawing.Size(150, 15);
+            this.foundTeacherName.TabIndex = 4;
+            this.foundTeacherName.Text = "ნაპოვნი მასწავლებელი";
+            this.foundTeacherName.Visible = false;
+            // 
+            // TeachersGroup
+            // 
+            this.TeachersGroup.Controls.Add(this.teacherIdValue);
+            this.TeachersGroup.Controls.Add(this.showTeachersBtn);
+            this.TeachersGroup.Controls.Add(this.foundTeacherName);
+            this.TeachersGroup.Controls.Add(this.getSingleTeacherBtn);
+            this.TeachersGroup.Location = new System.Drawing.Point(12, 9);
+            this.TeachersGroup.Name = "TeachersGroup";
+            this.TeachersGroup.Size = new System.Drawing.Size(375, 627);
+            this.TeachersGroup.TabIndex = 5;
+            this.TeachersGroup.TabStop = false;
+            this.TeachersGroup.Text = "მასწავლებლები";
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1177, 648);
-            this.Controls.Add(this.getSingleStudentBtn);
-            this.Controls.Add(this.studentidValue);
-            this.Controls.Add(this.showTeachersBtn);
+            this.Controls.Add(this.TeachersGroup);
             this.Controls.Add(this.showStudentsBtn);
             this.Controls.Add(this.HelloLabel);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Name = "Form1";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Form1";
+            this.TeachersGroup.ResumeLayout(false);
+            this.TeachersGroup.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -109,7 +135,9 @@
         private Label HelloLabel;
         private Button showStudentsBtn;
         private Button showTeachersBtn;
-        private TextBox studentidValue;
-        private Button getSingleStudentBtn;
+        private TextBox teacherIdValue;
+        private Button getSingleTeacherBtn;
+        private Label foundTeacherName;
+        private GroupBox TeachersGroup;
     }
 }
