@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             this.HelloLabel = new System.Windows.Forms.Label();
-            this.showStudentsBtn = new System.Windows.Forms.Button();
             this.showTeachersBtn = new System.Windows.Forms.Button();
             this.teacherIdValue = new System.Windows.Forms.TextBox();
             this.getSingleTeacherBtn = new System.Windows.Forms.Button();
@@ -47,6 +46,7 @@
             this.editBtn = new System.Windows.Forms.Button();
             this.deleteBtn = new System.Windows.Forms.Button();
             this.addBtn = new System.Windows.Forms.Button();
+            this.clearFormBtn = new System.Windows.Forms.Button();
             this.TeachersGroup.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -60,17 +60,6 @@
             this.HelloLabel.Size = new System.Drawing.Size(393, 47);
             this.HelloLabel.TabIndex = 0;
             this.HelloLabel.Text = "STUDENTS APPLICATION";
-            // 
-            // showStudentsBtn
-            // 
-            this.showStudentsBtn.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.showStudentsBtn.Location = new System.Drawing.Point(961, 94);
-            this.showStudentsBtn.Name = "showStudentsBtn";
-            this.showStudentsBtn.Size = new System.Drawing.Size(204, 43);
-            this.showStudentsBtn.TabIndex = 1;
-            this.showStudentsBtn.Text = "სტუდენტების ჩამოტვირთვა";
-            this.showStudentsBtn.UseVisualStyleBackColor = true;
-            this.showStudentsBtn.Click += new System.EventHandler(this.showStudentsBtn_Click);
             // 
             // showTeachersBtn
             // 
@@ -125,12 +114,14 @@
             // 
             // StudentsList
             // 
+            this.StudentsList.Cursor = System.Windows.Forms.Cursors.Hand;
             this.StudentsList.FormattingEnabled = true;
             this.StudentsList.ItemHeight = 15;
             this.StudentsList.Location = new System.Drawing.Point(757, 143);
             this.StudentsList.Name = "StudentsList";
             this.StudentsList.Size = new System.Drawing.Size(408, 229);
             this.StudentsList.TabIndex = 6;
+            this.StudentsList.SelectedIndexChanged += new System.EventHandler(this.StudentsList_SelectedIndexChanged);
             // 
             // firstNameLabel
             // 
@@ -224,11 +215,22 @@
             this.addBtn.UseVisualStyleBackColor = true;
             this.addBtn.Click += new System.EventHandler(this.addBtn_Click);
             // 
+            // clearFormBtn
+            // 
+            this.clearFormBtn.Location = new System.Drawing.Point(1054, 483);
+            this.clearFormBtn.Name = "clearFormBtn";
+            this.clearFormBtn.Size = new System.Drawing.Size(111, 23);
+            this.clearFormBtn.TabIndex = 9;
+            this.clearFormBtn.Text = "გასუფთავება";
+            this.clearFormBtn.UseVisualStyleBackColor = true;
+            this.clearFormBtn.Click += new System.EventHandler(this.clearFormBtn_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1177, 648);
+            this.Controls.Add(this.clearFormBtn);
             this.Controls.Add(this.addBtn);
             this.Controls.Add(this.deleteBtn);
             this.Controls.Add(this.editBtn);
@@ -242,12 +244,12 @@
             this.Controls.Add(this.firstNameLabel);
             this.Controls.Add(this.StudentsList);
             this.Controls.Add(this.TeachersGroup);
-            this.Controls.Add(this.showStudentsBtn);
             this.Controls.Add(this.HelloLabel);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Name = "Form1";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Form1";
+            this.Load += new System.EventHandler(this.Form1_Load);
             this.TeachersGroup.ResumeLayout(false);
             this.TeachersGroup.PerformLayout();
             this.ResumeLayout(false);
@@ -258,7 +260,6 @@
         #endregion
 
         private Label HelloLabel;
-        private Button showStudentsBtn;
         private Button showTeachersBtn;
         private TextBox teacherIdValue;
         private Button getSingleTeacherBtn;
@@ -276,5 +277,6 @@
         private Button editBtn;
         private Button deleteBtn;
         private Button addBtn;
+        private Button clearFormBtn;
     }
 }

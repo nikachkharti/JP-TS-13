@@ -1,4 +1,5 @@
-﻿using Student.Service;
+﻿using Student.Models;
+using Student.Service;
 using Student.Service.Interfaces;
 
 namespace Student.UI
@@ -7,6 +8,7 @@ namespace Student.UI
     {
         private readonly IStudentService _studentService;
         private readonly ITeacherService _teacherService;
+        public StudentModel? SelectedStudent { get; set; }
 
         public Form1()
         {
@@ -15,10 +17,9 @@ namespace Student.UI
             _teacherService = new TeacherService();
         }
 
-        private void showStudentsBtn_Click(object sender, EventArgs e)
+        private void Form1_Load(object sender, EventArgs e)
         {
-            var allStudents = _studentService.GetAllStudents();
-            StudentsList.DataSource = allStudents;
+            RefreshData();
         }
 
         private void showTeachersBtn_Click(object sender, EventArgs e)
@@ -55,6 +56,42 @@ namespace Student.UI
                 DateOfBirth = dobValue.Value,
                 Pin = pinValue.Text
             });
+
+            RefreshData();
+            ClearForm();
+            MessageBox.Show("ახალი სტუდენტი წარმატებით დაემატა", "ინფორამცია დაემატა", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
+
+        private void StudentsList_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            SelectedStudent = StudentsList.SelectedItem as StudentModel;
+
+            if (SelectedStudent != null)
+            {
+                firstNameValue.Text = SelectedStudent.FirstName;
+                lastNameValue.Text = SelectedStudent.LastName;
+                dobValue.Value = SelectedStudent.DateOfBirth;
+                pinValue.Text = SelectedStudent.Pin;
+            }
+        }
+
+        private void clearFormBtn_Click(object sender, EventArgs e)
+        {
+            ClearForm();
+        }
+
+        private void ClearForm()
+        {
+            firstNameValue.Text = string.Empty;
+            lastNameValue.Text = string.Empty;
+            dobValue.Value = DateTime.Now;
+            pinValue.Text = string.Empty;
+        }
+
+        private void RefreshData()
+        {
+            StudentsList.DataSource = _studentService.GetAllStudents();
+        }
+
     }
 }
