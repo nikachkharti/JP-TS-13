@@ -222,6 +222,7 @@
             this.addBtn.TabIndex = 9;
             this.addBtn.Text = "დამატება";
             this.addBtn.UseVisualStyleBackColor = true;
+            this.addBtn.Click += new System.EventHandler(this.addBtn_Click);
             // 
             // Form1
             // 

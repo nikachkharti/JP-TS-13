@@ -6,6 +6,30 @@ namespace Student.Service
 {
     public class StudentService : IStudentService
     {
+        public void AddStudent(StudentModel newStudentObject)
+        {
+            string sqlExpression = @$"
+                INSERT INTO Students (FirstName,LastName,DateOfBirth,Pin)
+                VALUES (N'{newStudentObject.FirstName}',N'{newStudentObject.LastName}','{newStudentObject.DateOfBirth}','{newStudentObject.Pin}')";
+
+            using (SqlConnection connection = new(HelperConfig.ConnectionString))
+            {
+                try
+                {
+                    SqlCommand command = new(sqlExpression, connection);
+                    connection.Open();
+                    command.ExecuteNonQuery();
+                }
+                catch (Exception)
+                {
+                    throw;
+                }
+                finally
+                {
+                    connection.Close();
+                }
+            }
+        }
         public List<StudentModel> GetAllStudents()
         {
             List<StudentModel> result = new();
@@ -60,6 +84,52 @@ namespace Student.Service
 
 
 
+        }
+        public StudentModel GetStudent(int id)
+        {
+            string sqlExpression = @$"SELECT [Id]
+                                        ,[FirstName]
+                                        ,[LastName]
+                                        ,[DateOfBirth]
+                                        ,[Pin]
+                                    FROM [JPTS13].[dbo].[Students]
+                                    WHERE Id = {id}";
+
+            StudentModel result = new();
+
+            using (SqlConnection connection = new(HelperConfig.ConnectionString))
+            {
+                try
+                {
+                    SqlCommand command = new(sqlExpression, connection);
+
+                    connection.Open();
+                    SqlDataReader reader = command.ExecuteReader();
+
+                    if (reader.HasRows)
+                    {
+                        while (reader.Read())
+                        {
+                            result.Id = reader.GetInt32(0);
+                            result.FirstName = reader.GetString(1);
+                            result.LastName = reader.GetString(2);
+                            result.DateOfBirth = reader.GetDateTime(3);
+                            result.Pin = reader.GetString(4);
+                        }
+                    }
+
+                }
+                catch (Exception)
+                {
+                    throw;
+                }
+                finally
+                {
+                    connection.Close();
+                }
+            }
+
+            return result;
         }
     }
 }
