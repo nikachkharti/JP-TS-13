@@ -18,6 +18,7 @@ namespace Student.UI
         private void showStudentsBtn_Click(object sender, EventArgs e)
         {
             var allStudents = _studentService.GetAllStudents();
+            StudentsList.DataSource = allStudents;
         }
 
         private void showTeachersBtn_Click(object sender, EventArgs e)
