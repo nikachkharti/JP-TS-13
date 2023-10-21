@@ -49,17 +49,38 @@ namespace Student.UI
 
         private void addBtn_Click(object sender, EventArgs e)
         {
-            _studentService.AddStudent(new Models.StudentModel
+            try
             {
-                FirstName = firstNameValue.Text,
-                LastName = lastNameValue.Text,
-                DateOfBirth = dobValue.Value,
-                Pin = pinValue.Text
-            });
+                if (FormIsValid())
+                {
+                    if (StudentIsUnique())
+                    {
+                        _studentService.AddStudent(new Models.StudentModel
+                        {
+                            FirstName = firstNameValue.Text,
+                            LastName = lastNameValue.Text,
+                            DateOfBirth = dobValue.Value,
+                            Pin = pinValue.Text
+                        });
 
-            RefreshData();
-            ClearForm();
-            MessageBox.Show("ახალი სტუდენტი წარმატებით დაემატა", "ინფორამცია დაემატა", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        RefreshData();
+                        ClearForm();
+                        MessageBox.Show("ახალი სტუდენტი წარმატებით დაემატა", "ინფორამცია დაემატა", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                    else
+                    {
+                        MessageBox.Show("ბაზაში მსგავსი სტუდენტი უკვე არსებობს", "უნიკალურობის შეცდომა", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("შემოყვანილი ინფორამაცია არასწორია", "არასწორი ინფორმაცია", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"{ex.Message}", "დაფიქსირდა შეცდომა", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void StudentsList_SelectedIndexChanged(object sender, EventArgs e)
@@ -93,5 +114,52 @@ namespace Student.UI
             StudentsList.DataSource = _studentService.GetAllStudents();
         }
 
+        private bool FormIsValid()
+        {
+            bool result = true;
+
+            if (string.IsNullOrWhiteSpace(firstNameValue.Text) || firstNameValue.Text.Length > 50)
+            {
+                result = false;
+            }
+            else if (string.IsNullOrWhiteSpace(lastNameValue.Text) || lastNameValue.Text.Length > 50)
+            {
+                result = false;
+            }
+            else if (string.IsNullOrWhiteSpace(pinValue.Text)
+                || pinValue.Text.Length != 11
+                || pinValue.Text.Any(x => char.IsLetter(x)))
+            {
+                result = false;
+            }
+
+            return result;
+        }
+
+
+        private bool StudentIsUnique()
+        {
+            return !_studentService.GetAllStudents()
+                .Any(x => x.Pin.Contains(pinValue.Text.Trim()));
+        }
+
+        private void deleteBtn_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                DialogResult deleteDialog = MessageBox.Show("ნამდვილად გსურთ მონაცემის წაშლა?", "მონაცემის წაშლა", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+                if (deleteDialog == DialogResult.Yes)
+                {
+                    _studentService.DeleteStudent(SelectedStudent.Id);
+                    RefreshData();
+                    ClearForm();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"{ex.Message}", "დაფიქსირდა შეცდომა", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
     }
 }

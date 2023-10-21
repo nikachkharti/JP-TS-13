@@ -204,6 +204,7 @@
             this.deleteBtn.TabIndex = 9;
             this.deleteBtn.Text = "წაშლა";
             this.deleteBtn.UseVisualStyleBackColor = true;
+            this.deleteBtn.Click += new System.EventHandler(this.deleteBtn_Click);
             // 
             // addBtn
             // 

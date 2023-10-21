@@ -30,6 +30,32 @@ namespace Student.Service
                 }
             }
         }
+
+        public void DeleteStudent(int id)
+        {
+            string sqlExpression = $"DELETE FROM Students WHERE Id = {id}";
+
+            using (SqlConnection connection = new(HelperConfig.ConnectionString))
+            {
+                try
+                {
+                    SqlCommand command = new(sqlExpression, connection);
+                    command.CommandType = CommandType.Text;
+
+                    connection.Open();
+                    command.ExecuteNonQuery();
+                }
+                catch (Exception)
+                {
+                    throw;
+                }
+                finally
+                {
+                    connection.Close();
+                }
+            }
+        }
+
         public List<StudentModel> GetAllStudents()
         {
             List<StudentModel> result = new();
