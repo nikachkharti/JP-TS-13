@@ -8,15 +8,19 @@ namespace Student.Service
     {
         public void AddStudent(StudentModel newStudentObject)
         {
-            string sqlExpression = @$"
-                INSERT INTO Students (FirstName,LastName,DateOfBirth,Pin)
-                VALUES (N'{newStudentObject.FirstName}',N'{newStudentObject.LastName}','{newStudentObject.DateOfBirth}','{newStudentObject.Pin}')";
+            string sqlExpression = "sp_addStudent";
 
             using (SqlConnection connection = new(HelperConfig.ConnectionString))
             {
                 try
                 {
                     SqlCommand command = new(sqlExpression, connection);
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.Parameters.AddWithValue("firsName", newStudentObject.FirstName);
+                    command.Parameters.AddWithValue("lastName", newStudentObject.LastName);
+                    command.Parameters.AddWithValue("dateOfBirth", newStudentObject.DateOfBirth);
+                    command.Parameters.AddWithValue("pin", newStudentObject.Pin);
+
                     connection.Open();
                     command.ExecuteNonQuery();
                 }
@@ -33,14 +37,15 @@ namespace Student.Service
 
         public void DeleteStudent(int id)
         {
-            string sqlExpression = $"DELETE FROM Students WHERE Id = {id}";
+            string sqlExpression = $"sp_deleteStudent";
 
             using (SqlConnection connection = new(HelperConfig.ConnectionString))
             {
                 try
                 {
                     SqlCommand command = new(sqlExpression, connection);
-                    command.CommandType = CommandType.Text;
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.Parameters.AddWithValue("id", id);
 
                     connection.Open();
                     command.ExecuteNonQuery();
@@ -60,12 +65,7 @@ namespace Student.Service
         {
             List<StudentModel> result = new();
 
-            const string sqlExpression = @"SELECT [Id]
-                                            ,[FirstName]
-                                            ,[LastName]
-                                            ,[DateOfBirth]
-                                            ,[Pin]
-                                          FROM [JPTS13].[dbo].[Students]";
+            const string sqlExpression = @"sp_GetAllStudents";
 
 
             using (SqlConnection connection = new(HelperConfig.ConnectionString))
@@ -73,7 +73,7 @@ namespace Student.Service
                 try
                 {
                     SqlCommand command = new(sqlExpression, connection);
-                    command.CommandType = CommandType.Text;
+                    command.CommandType = CommandType.StoredProcedure;
                     connection.Open();
 
                     SqlDataReader reader = command.ExecuteReader();
@@ -113,13 +113,7 @@ namespace Student.Service
         }
         public StudentModel GetStudent(int id)
         {
-            string sqlExpression = @$"SELECT [Id]
-                                        ,[FirstName]
-                                        ,[LastName]
-                                        ,[DateOfBirth]
-                                        ,[Pin]
-                                    FROM [JPTS13].[dbo].[Students]
-                                    WHERE Id = {id}";
+            string sqlExpression = "sp_GetSingleStudent";
 
             StudentModel result = new();
 
@@ -128,6 +122,8 @@ namespace Student.Service
                 try
                 {
                     SqlCommand command = new(sqlExpression, connection);
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.Parameters.AddWithValue("id", id);
 
                     connection.Open();
                     SqlDataReader reader = command.ExecuteReader();

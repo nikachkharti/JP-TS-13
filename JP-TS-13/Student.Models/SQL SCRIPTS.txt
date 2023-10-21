@@ -32,3 +32,57 @@ INSERT INTO Teachers(FirstName,LastName,DateOfBirth,Pin,Salary)
 VALUES
 (N'ნიკა',N'ჩხარტიშვილი','1995-06-04','01024085083',2000),
 (N'შაკო',N'დვალიშვილი','1994-06-04','01024085083',2000)
+
+
+
+
+
+--პროცედურები
+
+CREATE PROCEDURE sp_GetAllStudents
+AS
+BEGIN
+	SELECT [Id]
+      ,[FirstName]
+      ,[LastName]
+      ,[DateOfBirth]
+      ,[Pin]
+  FROM [JPTS13].[dbo].[Students]
+END
+
+
+
+CREATE PROCEDURE sp_GetSingleStudent
+@id INT
+AS
+BEGIN
+	SELECT
+	   [Id]
+      ,[FirstName]
+      ,[LastName]
+      ,[DateOfBirth]
+      ,[Pin]
+  FROM [JPTS13].[dbo].[Students]
+  WHERE Id = @id
+END
+
+
+CREATE PROCEDURE sp_addStudent
+@firsName NVARCHAR(50),
+@lastName NVARCHAR(50),
+@dateOfBirth DATETIME,
+@pin CHAR(11)
+AS
+BEGIN
+	INSERT INTO Students (FirstName,LastName,DateOfBirth,Pin)
+	VALUES
+	(@firsName,@lastName,@dateOfBirth,@pin)
+END
+
+
+CREATE PROCEDURE sp_deleteStudent
+@id INT
+AS
+BEGIN
+	DELETE FROM Students WHERE Id = @id
+END
