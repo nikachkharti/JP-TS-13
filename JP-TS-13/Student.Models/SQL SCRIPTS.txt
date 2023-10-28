@@ -86,3 +86,39 @@ AS
 BEGIN
 	DELETE FROM Students WHERE Id = @id
 END
+
+
+CREATE PROCEDURE sp_updateStudent
+@firstName NVARCHAR(50),
+@lastName NVARCHAR(50),
+@dateOfBirth DATETIME,
+@pin CHAR(11),
+@id INT
+AS
+BEGIN
+	UPDATE Students
+	SET
+		FirstName = @firstName,
+		LastName = @lastName,
+		DateOfBirth = @dateOfBirth,
+		Pin = @pin
+	WHERE Id = @id
+END
+
+
+CREATE TABLE [User]
+(
+	Id INT PRIMARY KEY IDENTITY NOT NULL,
+	Email VARCHAR(50) NOT NULL,
+	Password VARCHAR(50) NOT NULL,
+	Role VARCHAR(50) NOT NULL
+)
+
+ALTER TABLE [User]
+ADD CONSTRAINT CK_ValidRole
+CHECK([Role] LIKE 'Admin' OR [Role] LIKE 'Teacher' OR [Role] LIKE 'Student')
+
+
+INSERT INTO [User] (Email,[Password],[Role])
+VALUES
+('admin@gmail.com','admin','Admin')

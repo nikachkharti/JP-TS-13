@@ -195,6 +195,7 @@
             this.editBtn.TabIndex = 9;
             this.editBtn.Text = "რედაქტირება";
             this.editBtn.UseVisualStyleBackColor = true;
+            this.editBtn.Click += new System.EventHandler(this.editBtn_Click);
             // 
             // deleteBtn
             // 

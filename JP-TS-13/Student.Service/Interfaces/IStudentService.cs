@@ -8,5 +8,6 @@ namespace Student.Service
         StudentModel GetStudent(int id);
         void AddStudent(StudentModel newStudentObject);
         void DeleteStudent(int id);
+        void UpdateStudent(StudentModel newStudentObject);
     }
 }

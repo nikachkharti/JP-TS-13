@@ -161,5 +161,35 @@ namespace Student.UI
                 MessageBox.Show($"{ex.Message}", "დაფიქსირდა შეცდომა", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
+        private void editBtn_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (FormIsValid())
+                {
+                    _studentService.UpdateStudent(new StudentModel
+                    {
+                        FirstName = firstNameValue.Text,
+                        LastName = lastNameValue.Text,
+                        DateOfBirth = dobValue.Value,
+                        Pin = pinValue.Text,
+                        Id = SelectedStudent.Id
+                    });
+
+                    RefreshData();
+                    ClearForm();
+                    MessageBox.Show("ახალი სტუდენტი წარმატებით დაემატა", "ინფორამცია დაემატა", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else
+                {
+                    MessageBox.Show("შემოყვანილი ინფორამაცია არასწორია", "არასწორი ინფორმაცია", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"{ex.Message}", "დაფიქსირდა შეცდომა", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
     }
 }

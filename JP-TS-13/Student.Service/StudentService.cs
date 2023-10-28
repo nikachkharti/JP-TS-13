@@ -153,5 +153,35 @@ namespace Student.Service
 
             return result;
         }
+
+        public void UpdateStudent(StudentModel newStudentObject)
+        {
+            string sqlExpression = "sp_updateStudent";
+
+            using (SqlConnection connection = new(HelperConfig.ConnectionString))
+            {
+                try
+                {
+                    SqlCommand command = new(sqlExpression, connection);
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.Parameters.AddWithValue("firstName", newStudentObject.FirstName);
+                    command.Parameters.AddWithValue("lastName", newStudentObject.LastName);
+                    command.Parameters.AddWithValue("dateOfBirth", newStudentObject.DateOfBirth);
+                    command.Parameters.AddWithValue("pin", newStudentObject.Pin);
+                    command.Parameters.AddWithValue("id", newStudentObject.Id);
+
+                    connection.Open();
+                    command.ExecuteNonQuery();
+                }
+                catch (Exception)
+                {
+                    throw;
+                }
+                finally
+                {
+                    connection.Close();
+                }
+            }
+        }
     }
 }
