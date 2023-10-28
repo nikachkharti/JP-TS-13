@@ -19,6 +19,7 @@ namespace Student.UI
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            StudentsList.SelectionMode = SelectionMode.MultiExtended;
             RefreshData();
         }
 
