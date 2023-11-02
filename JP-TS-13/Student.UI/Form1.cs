@@ -9,16 +9,19 @@ namespace Student.UI
         private readonly IStudentService _studentService;
         private readonly ITeacherService _teacherService;
         public StudentModel? SelectedStudent { get; set; }
+        public UserModel LoggedInUser { get; set; }
 
-        public Form1()
+        public Form1(UserModel loggedInUser)
         {
             InitializeComponent();
             _studentService = new StudentService();
             _teacherService = new TeacherService();
+            LoggedInUser = loggedInUser;
         }
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            HelloLabel.Text = LoggedInUser.Email;
             StudentsList.SelectionMode = SelectionMode.MultiExtended;
             RefreshData();
         }
