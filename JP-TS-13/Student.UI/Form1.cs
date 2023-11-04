@@ -51,13 +51,13 @@ namespace Student.UI
             }
         }
 
-        private void addBtn_Click(object sender, EventArgs e)
+        private async void addBtn_Click(object sender, EventArgs e)
         {
             try
             {
                 if (FormIsValid())
                 {
-                    if (StudentIsUnique())
+                    if (await StudentIsUnique())
                     {
                         _studentService.AddStudent(new Models.StudentModel
                         {
@@ -113,9 +113,9 @@ namespace Student.UI
             pinValue.Text = string.Empty;
         }
 
-        private void RefreshData()
+        private async void RefreshData()
         {
-            StudentsList.DataSource = _studentService.GetAllStudents();
+            StudentsList.DataSource = await _studentService.GetAllStudents();
         }
 
         private bool FormIsValid()
@@ -141,10 +141,11 @@ namespace Student.UI
         }
 
 
-        private bool StudentIsUnique()
+        private async Task<bool> StudentIsUnique()
         {
-            return !_studentService.GetAllStudents()
-                .Any(x => x.Pin.Contains(pinValue.Text.Trim()));
+            var allStudents = await _studentService.GetAllStudents();
+            return allStudents.Any(x => x.Pin.Contains(pinValue.Text.Trim()));
+
         }
 
         private void deleteBtn_Click(object sender, EventArgs e)

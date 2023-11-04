@@ -4,7 +4,7 @@ namespace Student.Service
 {
     public interface IStudentService
     {
-        List<StudentModel> GetAllStudents();
+        Task<List<StudentModel>> GetAllStudents();
         StudentModel GetStudent(int id);
         void AddStudent(StudentModel newStudentObject);
         void DeleteStudent(int id);

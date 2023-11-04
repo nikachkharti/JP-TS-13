@@ -61,7 +61,7 @@ namespace Student.Service
             }
         }
 
-        public List<StudentModel> GetAllStudents()
+        public async Task<List<StudentModel>> GetAllStudents()
         {
             List<StudentModel> result = new();
 
@@ -74,13 +74,13 @@ namespace Student.Service
                 {
                     SqlCommand command = new(sqlExpression, connection);
                     command.CommandType = CommandType.StoredProcedure;
-                    connection.Open();
+                    await connection.OpenAsync();
 
-                    SqlDataReader reader = command.ExecuteReader();
+                    SqlDataReader reader = await command.ExecuteReaderAsync();
 
                     if (reader.HasRows)
                     {
-                        while (reader.Read())
+                        while (await reader.ReadAsync())
                         {
                             result.Add(new StudentModel
                             {
