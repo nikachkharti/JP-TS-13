@@ -11,9 +11,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Student.Models", "Student.M
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "OLD", "OLD", "{770F7E26-EA5D-41B3-BF18-EB539C6D3029}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Student.Service", "Student.Service\Student.Service.csproj", "{1B7474C6-9B2F-48E8-A711-43A38D7C7ED1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Student.Service", "Student.Service\Student.Service.csproj", "{1B7474C6-9B2F-48E8-A711-43A38D7C7ED1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Student.UI", "Student.UI\Student.UI.csproj", "{3E1DEAAF-119A-4255-87E8-86E9FC9754F5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Student.UI", "Student.UI\Student.UI.csproj", "{3E1DEAAF-119A-4255-87E8-86E9FC9754F5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

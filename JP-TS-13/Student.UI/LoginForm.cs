@@ -40,7 +40,7 @@ namespace Student.UI
                         }
                         else
                         {
-                            StudentPersonalCabinetForm studentPersonalCabinetForm = new();
+                            StudentPersonalCabinetForm studentPersonalCabinetForm = new(UserModelFromDatabase);
                             studentPersonalCabinetForm.ShowDialog();
                         }
                     }

@@ -1,12 +1,7 @@
 ﻿namespace Student.UI
 {
 
-    //ააწყვეთ ავტორიზაციის და რეგისტრაციის ლოგიკა
-    //სტუდენტების და მასწავლებლების მენეჯმენტი უნდა შეეძლოთ
-    //მხოლოდ იმ ტიპებს რომლებიც გაივლიან ავტორიზაციას და ექნებათ Admin როლი
-    //SQL ში უნდა შექმნათ user -ის ცხრილი შემდეგი პარამეტრებით:
-    //ელ-ფოსტა
-    //პაროლი
+    //დაწერეთ ახალი
 
 
     internal static class Program
@@ -20,7 +15,7 @@
             // To customize application configuration such as set high DPI settings or default font,
             // see https://aka.ms/applicationconfiguration.
             ApplicationConfiguration.Initialize();
-            Application.Run(new LoginForm());
+            Application.Run(new AsyncForm());
         }
     }
 }
