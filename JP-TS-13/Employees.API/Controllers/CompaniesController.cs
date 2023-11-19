@@ -1,4 +1,5 @@
 ﻿using Employees.API.Data;
+using Employees.API.Models.DTOS;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Employees.API.Controllers
@@ -10,14 +11,20 @@ namespace Employees.API.Controllers
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public ActionResult<List<Company>> GetCompanies()
+        public ActionResult<List<CompanyDTO>> GetCompanies()
         {
-            var result = CompaniesStore.CompanyList;
+            List<Company> companies = CompaniesStore.CompanyList;
 
-            if (result.Count == 0)
-            {
+            if (companies.Count == 0)
                 return NoContent();
-            }
+
+            List<CompanyDTO> result = companies.Select(x => new CompanyDTO
+            {
+                Id = x.Id,
+                Name = x.Name,
+                CreateDate = x.CreateDate,
+                Description = x.Description
+            }).ToList();
 
             return Ok(result);
         }
@@ -26,39 +33,50 @@ namespace Employees.API.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public ActionResult<Employee> GetCompany(int id)
+        public ActionResult<CompanyDTO> GetCompany(int id)
         {
             if (id <= 0)
-            {
                 return BadRequest();
-            }
 
-            var result = CompaniesStore.CompanyList.Find(x => x.Id == id);
+            Company company = CompaniesStore.CompanyList.Find(x => x.Id == id);
 
-            if (result == null)
+            if (company == null)
+                return NotFound(company);
+
+            CompanyDTO result = new()
             {
-                return NotFound(result);
-            }
+                Id = company.Id,
+                Name = company.Name,
+                CreateDate = company.CreateDate,
+                Description = company.Description
+            };
 
             return Ok(result);
         }
 
+
+
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status201Created)]
-        public ActionResult AddNewCompany(Company company)
+        public ActionResult AddNewCompany(CreateCompanyDTO createCompanyDTO)
         {
-            if (company is null)
-            {
-                return BadRequest(company);
-            }
+            if (createCompanyDTO is null)
+                return BadRequest(createCompanyDTO);
 
             var newId = CompaniesStore.CompanyList.Max(x => x.Id) + 1;
-            company.Id = newId;
 
-            CompaniesStore.CompanyList.Add(company);
+            Company newCompany = new()
+            {
+                Id = newId,
+                Name = createCompanyDTO.Name,
+                Description = createCompanyDTO.Description,
+                CreateDate = createCompanyDTO.CreateDate
+            };
 
-            return Created(string.Empty, company);
+            CompaniesStore.CompanyList.Add(newCompany);
+
+            return Created(string.Empty, newCompany);
         }
 
 
@@ -69,16 +87,12 @@ namespace Employees.API.Controllers
         public ActionResult DeleteCompany(int id)
         {
             if (id <= 0)
-            {
                 return BadRequest();
-            }
 
-            var result = CompaniesStore.CompanyList.Find(x => x.Id == id);
+            Company result = CompaniesStore.CompanyList.Find(x => x.Id == id);
 
             if (result == null)
-            {
                 return NotFound(result);
-            }
 
             CompaniesStore.CompanyList.Remove(result);
             return NoContent();
@@ -88,23 +102,19 @@ namespace Employees.API.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public ActionResult UpdateCompany(int id, Company model)
+        public ActionResult UpdateCompany(int id, UpdateCompanyDTO updateCompanyDTO)
         {
-            if (id <= 0 || model.Id != id)
-            {
+            if (id <= 0 || updateCompanyDTO.Id != id)
                 return BadRequest();
-            }
 
-            var result = CompaniesStore.CompanyList.Find(x => x.Id == id);
+            Company result = CompaniesStore.CompanyList.Find(x => x.Id == id);
 
             if (result == null)
-            {
                 return NotFound(result);
-            }
 
-            result.Name = model.Name;
-            result.Description = model.Description;
-            result.CreateDate = model.CreateDate;
+            result.Name = updateCompanyDTO.Name;
+            result.Description = updateCompanyDTO.Description;
+            result.CreateDate = updateCompanyDTO.CreateDate;
 
             return Ok(result);
         }
