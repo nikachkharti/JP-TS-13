@@ -1,4 +1,5 @@
 ﻿using Employees.API.Data;
+using Employees.API.Models.DTOS;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Employees.API.Controllers
@@ -10,14 +11,21 @@ namespace Employees.API.Controllers
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public ActionResult<List<Employee>> GetEmployees()
+        public ActionResult<List<EmployeeDTO>> GetEmployees()
         {
-            var result = EmployeesStore.EmployeeList;
+            List<Employee> employees = EmployeesStore.EmployeeList;
 
-            if (result.Count == 0)
+            if (employees.Count == 0)
             {
                 return NoContent();
             }
+
+            List<EmployeeDTO> result = employees.Select(x => new EmployeeDTO
+            {
+                Id = x.Id,
+                FirstName = x.FirstName,
+                LastName = x.LastName,
+            }).ToList();
 
             return Ok(result);
         }
@@ -26,19 +34,22 @@ namespace Employees.API.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public ActionResult<Employee> GetEmployee(int id)
+        public ActionResult<EmployeeDTO> GetEmployee(int id)
         {
             if (id <= 0)
-            {
                 return BadRequest();
-            }
 
-            var result = EmployeesStore.EmployeeList.Find(x => x.Id == id);
+            Employee employee = EmployeesStore.EmployeeList.Find(x => x.Id == id);
 
-            if (result == null)
+            if (employee == null)
+                return NotFound(employee);
+
+            EmployeeDTO result = new()
             {
-                return NotFound(result);
-            }
+                Id = employee.Id,
+                FirstName = employee.FirstName,
+                LastName = employee.LastName,
+            };
 
             return Ok(result);
         }
@@ -46,19 +57,25 @@ namespace Employees.API.Controllers
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status201Created)]
-        public ActionResult AddNewEmployee(Employee employee)
+        public ActionResult AddNewEmployee(CreatEmployeeDTO createEmployeeDTO)
         {
-            if (employee is null)
+            if (createEmployeeDTO is null)
             {
-                return BadRequest(employee);
+                return BadRequest(createEmployeeDTO);
             }
 
             var newId = EmployeesStore.EmployeeList.Max(x => x.Id) + 1;
-            employee.Id = newId;
 
-            EmployeesStore.EmployeeList.Add(employee);
+            Employee newEmployee = new()
+            {
+                Id = newId,
+                FirstName = createEmployeeDTO.FirstName,
+                LastName = createEmployeeDTO.LastName,
+            };
 
-            return Created(string.Empty, employee);
+            EmployeesStore.EmployeeList.Add(newEmployee);
+
+            return Created(string.Empty, newEmployee);
         }
 
         [HttpDelete("{id}")]
@@ -68,16 +85,12 @@ namespace Employees.API.Controllers
         public ActionResult DeleteEmployee(int id)
         {
             if (id <= 0)
-            {
                 return BadRequest();
-            }
 
-            var result = EmployeesStore.EmployeeList.Find(x => x.Id == id);
+            Employee result = EmployeesStore.EmployeeList.Find(x => x.Id == id);
 
             if (result == null)
-            {
                 return NotFound(result);
-            }
 
             EmployeesStore.EmployeeList.Remove(result);
             return NoContent();
@@ -87,40 +100,20 @@ namespace Employees.API.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public ActionResult UpdateEmployee(int id, Employee model)
+        public ActionResult UpdateEmployee(int id, UpdateEmployeeDTO updateEmployeeDTO)
         {
-            if (id <= 0 || model.Id != id)
-            {
+            if (id <= 0 || updateEmployeeDTO.Id != id)
                 return BadRequest();
-            }
 
-            var result = EmployeesStore.EmployeeList.Find(x => x.Id == id);
+            Employee result = EmployeesStore.EmployeeList.Find(x => x.Id == id);
 
             if (result == null)
-            {
                 return NotFound(result);
-            }
 
-            result.FirstName = model.FirstName;
-            result.LastName = model.LastName;
+            result.FirstName = updateEmployeeDTO.FirstName;
+            result.LastName = updateEmployeeDTO.LastName;
 
             return Ok(result);
         }
-
-
-        //private int MaxId(List<Employee> collection)
-        //{
-        //    int maxElement = collection[0].Id;
-
-        //    foreach (var item in collection)
-        //    {
-        //        if (item.Id > maxElement)
-        //        {
-        //            maxElement = item.Id;
-        //        }
-        //    }
-
-        //    return maxElement;
-        //}
     }
 }
