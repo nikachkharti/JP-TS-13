@@ -8,13 +8,24 @@ namespace Employees.API.Controllers
     public class CompaniesController : ControllerBase
     {
         [HttpGet]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         public ActionResult<List<Company>> GetCompanies()
         {
             var result = CompaniesStore.CompanyList;
+
+            if (result.Count == 0)
+            {
+                return NoContent();
+            }
+
             return Ok(result);
         }
 
         [HttpGet("{id}")]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         public ActionResult<Employee> GetCompany(int id)
         {
             if (id <= 0)
@@ -33,6 +44,8 @@ namespace Employees.API.Controllers
         }
 
         [HttpPost]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status201Created)]
         public ActionResult AddNewCompany(Company company)
         {
             if (company is null)
@@ -50,6 +63,9 @@ namespace Employees.API.Controllers
 
 
         [HttpDelete("{id}")]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
         public ActionResult DeleteCompany(int id)
         {
             if (id <= 0)
@@ -69,6 +85,9 @@ namespace Employees.API.Controllers
         }
 
         [HttpPut]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         public ActionResult UpdateCompany(int id, Company model)
         {
             if (id <= 0 || model.Id != id)
