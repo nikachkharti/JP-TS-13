@@ -3,8 +3,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Employees.API.Controllers
 {
+    [Route("api/employees")]
     [ApiController]
-    [Route("employees")]
     public class EmployeesController : ControllerBase
     {
         [HttpGet]
