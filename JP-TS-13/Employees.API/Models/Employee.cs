@@ -1,4 +1,6 @@
-﻿namespace Employees.API
+﻿using Microsoft.EntityFrameworkCore;
+
+namespace Employees.API
 {
     public class Employee
     {
@@ -6,4 +8,6 @@
         public string FirstName { get; set; }
         public string LastName { get; set; }
     }
+
+    
 }
