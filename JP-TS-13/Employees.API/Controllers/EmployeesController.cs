@@ -25,6 +25,7 @@ namespace Employees.API.Controllers
             if (employees.Count == 0)
                 return NoContent();
 
+            //TODO--Implement automapper logic here...
             List<EmployeeDTO> result = employees.Select(x => new EmployeeDTO
             {
                 Id = x.Id,
@@ -49,6 +50,7 @@ namespace Employees.API.Controllers
             if (employee == null)
                 return NotFound(employee);
 
+            //TODO--Implement automapper logic here...
             EmployeeDTO result = new()
             {
                 Id = employee.Id,
@@ -114,6 +116,7 @@ namespace Employees.API.Controllers
             if (result == null)
                 return NotFound(result);
 
+            //TODO--Implement automapper logic here...
             result.FirstName = updateEmployeeDTO.FirstName;
             result.LastName = updateEmployeeDTO.LastName;
 
