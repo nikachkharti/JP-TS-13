@@ -8,23 +8,28 @@ namespace Employees.API.Controllers
     [ApiController]
     public class EmployeesController : ControllerBase
     {
+        private readonly ApplicationDbContext _context;
+        public EmployeesController(ApplicationDbContext context)
+        {
+            _context = context;
+        }
+
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public ActionResult<List<EmployeeDTO>> GetEmployees()
         {
-            List<Employee> employees = EmployeesStore.EmployeeList;
+
+            List<Employee> employees = _context.Employees.ToList();
 
             if (employees.Count == 0)
-            {
                 return NoContent();
-            }
 
             List<EmployeeDTO> result = employees.Select(x => new EmployeeDTO
             {
                 Id = x.Id,
                 FirstName = x.FirstName,
-                LastName = x.LastName,
+                LastName = x.LastName
             }).ToList();
 
             return Ok(result);
@@ -39,7 +44,7 @@ namespace Employees.API.Controllers
             if (id <= 0)
                 return BadRequest();
 
-            Employee employee = EmployeesStore.EmployeeList.Find(x => x.Id == id);
+            Employee employee = _context.Employees.FirstOrDefault(x => x.Id == id);
 
             if (employee == null)
                 return NotFound(employee);
@@ -54,26 +59,23 @@ namespace Employees.API.Controllers
             return Ok(result);
         }
 
+
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status201Created)]
         public ActionResult AddNewEmployee(CreatEmployeeDTO createEmployeeDTO)
         {
             if (createEmployeeDTO is null)
-            {
                 return BadRequest(createEmployeeDTO);
-            }
-
-            var newId = EmployeesStore.EmployeeList.Max(x => x.Id) + 1;
 
             Employee newEmployee = new()
             {
-                Id = newId,
                 FirstName = createEmployeeDTO.FirstName,
                 LastName = createEmployeeDTO.LastName,
             };
 
-            EmployeesStore.EmployeeList.Add(newEmployee);
+            _context.Employees.Add(newEmployee);
+            _context.SaveChanges();
 
             return Created(string.Empty, newEmployee);
         }
@@ -87,12 +89,14 @@ namespace Employees.API.Controllers
             if (id <= 0)
                 return BadRequest();
 
-            Employee result = EmployeesStore.EmployeeList.Find(x => x.Id == id);
+            Employee result = _context.Employees.FirstOrDefault(x => x.Id == id);
 
             if (result == null)
                 return NotFound(result);
 
-            EmployeesStore.EmployeeList.Remove(result);
+            _context.Employees.Remove(result);
+            _context.SaveChanges();
+
             return NoContent();
         }
 
@@ -105,13 +109,16 @@ namespace Employees.API.Controllers
             if (id <= 0 || updateEmployeeDTO.Id != id)
                 return BadRequest();
 
-            Employee result = EmployeesStore.EmployeeList.Find(x => x.Id == id);
+            Employee result = _context.Employees.FirstOrDefault(x => x.Id == id);
 
             if (result == null)
                 return NotFound(result);
 
             result.FirstName = updateEmployeeDTO.FirstName;
             result.LastName = updateEmployeeDTO.LastName;
+
+            _context.Employees.Update(result);
+            _context.SaveChanges();
 
             return Ok(result);
         }
