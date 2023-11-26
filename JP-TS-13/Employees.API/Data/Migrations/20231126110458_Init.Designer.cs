@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Employees.API.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20231126102644_EmptyCompaniesAndEmployees")]
-    partial class EmptyCompaniesAndEmployees
+    [Migration("20231126110458_Init")]
+    partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -39,11 +39,36 @@ namespace Employees.API.Data.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.HasKey("Id");
 
                     b.ToTable("Companies");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CreateDate = new DateTime(2023, 11, 26, 15, 4, 58, 511, DateTimeKind.Local).AddTicks(3543),
+                            Description = "Microsoft company",
+                            Name = "Microsoft"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            CreateDate = new DateTime(2023, 11, 26, 15, 4, 58, 511, DateTimeKind.Local).AddTicks(3552),
+                            Description = "Apple company",
+                            Name = "Apple"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            CreateDate = new DateTime(2023, 11, 26, 15, 4, 58, 511, DateTimeKind.Local).AddTicks(3553),
+                            Description = "Intel company",
+                            Name = "Intel"
+                        });
                 });
 
             modelBuilder.Entity("Employees.API.Employee", b =>
@@ -55,10 +80,14 @@ namespace Employees.API.Data.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("FirstName")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
 
                     b.Property<string>("LastName")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
 
                     b.HasKey("Id");
 

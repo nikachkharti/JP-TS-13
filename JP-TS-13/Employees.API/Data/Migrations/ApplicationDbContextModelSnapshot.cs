@@ -37,7 +37,9 @@ namespace Employees.API.Data.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.HasKey("Id");
 
@@ -47,21 +49,21 @@ namespace Employees.API.Data.Migrations
                         new
                         {
                             Id = 1,
-                            CreateDate = new DateTime(2023, 11, 26, 14, 29, 20, 523, DateTimeKind.Local).AddTicks(9365),
+                            CreateDate = new DateTime(2023, 11, 26, 15, 4, 58, 511, DateTimeKind.Local).AddTicks(3543),
                             Description = "Microsoft company",
                             Name = "Microsoft"
                         },
                         new
                         {
                             Id = 2,
-                            CreateDate = new DateTime(2023, 11, 26, 14, 29, 20, 523, DateTimeKind.Local).AddTicks(9375),
+                            CreateDate = new DateTime(2023, 11, 26, 15, 4, 58, 511, DateTimeKind.Local).AddTicks(3552),
                             Description = "Apple company",
                             Name = "Apple"
                         },
                         new
                         {
                             Id = 3,
-                            CreateDate = new DateTime(2023, 11, 26, 14, 29, 20, 523, DateTimeKind.Local).AddTicks(9377),
+                            CreateDate = new DateTime(2023, 11, 26, 15, 4, 58, 511, DateTimeKind.Local).AddTicks(3553),
                             Description = "Intel company",
                             Name = "Intel"
                         });
@@ -76,10 +78,14 @@ namespace Employees.API.Data.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("FirstName")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
 
                     b.Property<string>("LastName")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
 
                     b.HasKey("Id");
 
