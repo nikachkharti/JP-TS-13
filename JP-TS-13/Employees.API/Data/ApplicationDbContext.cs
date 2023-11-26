@@ -14,7 +14,6 @@ namespace Employees.API.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            //Seed
             modelBuilder.Entity<Employee>().HasData(
                     new Employee
                     {
@@ -39,6 +38,31 @@ namespace Employees.API.Data
                         Id = 4,
                         FirstName = "Lizi",
                         LastName = "Nemsiwverdize"
+                    }
+                );
+
+
+            modelBuilder.Entity<Company>().HasData(
+                    new Company
+                    {
+                        Id = 1,
+                        Name = "Microsoft",
+                        CreateDate = DateTime.Now,
+                        Description = "Microsoft company"
+                    },
+                    new Company
+                    {
+                        Id = 2,
+                        Name = "Apple",
+                        CreateDate = DateTime.Now,
+                        Description = "Apple company"
+                    },
+                    new Company
+                    {
+                        Id = 3,
+                        Name = "Intel",
+                        CreateDate = DateTime.Now,
+                        Description = "Intel company"
                     }
                 );
         }

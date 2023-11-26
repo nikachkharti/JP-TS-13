@@ -9,11 +9,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace Employees.API.Migrations
+namespace Employees.API.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20231123134246_Companies")]
-    partial class Companies
+    [Migration("20231126102644_EmptyCompaniesAndEmployees")]
+    partial class EmptyCompaniesAndEmployees
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -63,6 +63,32 @@ namespace Employees.API.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Employees");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            FirstName = "Irakli",
+                            LastName = "Rogava"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            FirstName = "Giorgi",
+                            LastName = "Omanadze"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            FirstName = "Giorgi",
+                            LastName = "Jibladze"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            FirstName = "Lizi",
+                            LastName = "Nemsiwverdize"
+                        });
                 });
 #pragma warning restore 612, 618
         }

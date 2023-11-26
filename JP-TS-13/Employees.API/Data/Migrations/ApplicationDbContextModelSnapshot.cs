@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace Employees.API.Migrations
+namespace Employees.API.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
     partial class ApplicationDbContextModelSnapshot : ModelSnapshot
@@ -42,6 +42,29 @@ namespace Employees.API.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Companies");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CreateDate = new DateTime(2023, 11, 26, 14, 29, 20, 523, DateTimeKind.Local).AddTicks(9365),
+                            Description = "Microsoft company",
+                            Name = "Microsoft"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            CreateDate = new DateTime(2023, 11, 26, 14, 29, 20, 523, DateTimeKind.Local).AddTicks(9375),
+                            Description = "Apple company",
+                            Name = "Apple"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            CreateDate = new DateTime(2023, 11, 26, 14, 29, 20, 523, DateTimeKind.Local).AddTicks(9377),
+                            Description = "Intel company",
+                            Name = "Intel"
+                        });
                 });
 
             modelBuilder.Entity("Employees.API.Employee", b =>

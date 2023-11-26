@@ -8,16 +8,23 @@ namespace Employees.API.Controllers
     [ApiController]
     public class CompaniesController : ControllerBase
     {
+        private readonly ApplicationDbContext _context;
+        public CompaniesController(ApplicationDbContext context)
+        {
+            _context = context;
+        }
+
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public ActionResult<List<CompanyDTO>> GetCompanies()
         {
-            List<Company> companies = CompaniesStore.CompanyList;
+            List<Company> companies = _context.Companies.ToList();
 
             if (companies.Count == 0)
                 return NoContent();
 
+            //TODO--Implement automapper logic here...
             List<CompanyDTO> result = companies.Select(x => new CompanyDTO
             {
                 Id = x.Id,
@@ -38,11 +45,12 @@ namespace Employees.API.Controllers
             if (id <= 0)
                 return BadRequest();
 
-            Company company = CompaniesStore.CompanyList.Find(x => x.Id == id);
+            Company company = _context.Companies.FirstOrDefault(x => x.Id == id);
 
             if (company == null)
                 return NotFound(company);
 
+            //TODO--Implement automapper logic here...
             CompanyDTO result = new()
             {
                 Id = company.Id,
@@ -64,17 +72,16 @@ namespace Employees.API.Controllers
             if (createCompanyDTO is null)
                 return BadRequest(createCompanyDTO);
 
-            var newId = CompaniesStore.CompanyList.Max(x => x.Id) + 1;
-
+            //TODO--Implement automapper logic here...
             Company newCompany = new()
             {
-                Id = newId,
                 Name = createCompanyDTO.Name,
                 Description = createCompanyDTO.Description,
                 CreateDate = createCompanyDTO.CreateDate
             };
 
-            CompaniesStore.CompanyList.Add(newCompany);
+            _context.Companies.Add(newCompany);
+            _context.SaveChanges();
 
             return Created(string.Empty, newCompany);
         }
@@ -89,12 +96,14 @@ namespace Employees.API.Controllers
             if (id <= 0)
                 return BadRequest();
 
-            Company result = CompaniesStore.CompanyList.Find(x => x.Id == id);
+            Company result = _context.Companies.FirstOrDefault(x => x.Id == id);
 
             if (result == null)
                 return NotFound(result);
 
-            CompaniesStore.CompanyList.Remove(result);
+            _context.Companies.Remove(result);
+            _context.SaveChanges();
+
             return NoContent();
         }
 
@@ -107,18 +116,20 @@ namespace Employees.API.Controllers
             if (id <= 0 || updateCompanyDTO.Id != id)
                 return BadRequest();
 
-            Company result = CompaniesStore.CompanyList.Find(x => x.Id == id);
+            Company result = _context.Companies.FirstOrDefault(x => x.Id == id);
 
             if (result == null)
                 return NotFound(result);
 
+            //TODO--Implement automapper logic here...
             result.Name = updateCompanyDTO.Name;
             result.Description = updateCompanyDTO.Description;
             result.CreateDate = updateCompanyDTO.CreateDate;
 
+            _context.Companies.Update(result);
+            _context.SaveChanges();
+
             return Ok(result);
         }
-
-
     }
 }
