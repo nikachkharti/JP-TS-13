@@ -2,6 +2,7 @@
 using Employees.API.Data;
 using Employees.API.Models.DTOS;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace Employees.API.Controllers
 {
@@ -20,9 +21,9 @@ namespace Employees.API.Controllers
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public ActionResult<List<CompanyDTO>> GetCompanies()
+        public async Task<ActionResult<List<CompanyDTO>>> GetCompanies()
         {
-            List<Company> companies = _context.Companies.ToList();
+            List<Company> companies = await _context.Companies.ToListAsync();
 
             if (companies.Count == 0)
                 return NoContent();
@@ -44,12 +45,12 @@ namespace Employees.API.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public ActionResult<CompanyDTO> GetCompany(int id)
+        public async Task<ActionResult<CompanyDTO>> GetCompany(int id)
         {
             if (id <= 0)
                 return BadRequest();
 
-            Company company = _context.Companies.FirstOrDefault(x => x.Id == id);
+            Company company = await _context.Companies.FirstOrDefaultAsync(x => x.Id == id);
 
             if (company == null)
                 return NotFound(company);
@@ -63,15 +64,15 @@ namespace Employees.API.Controllers
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status201Created)]
-        public ActionResult AddNewCompany(CreateCompanyDTO createCompanyDTO)
+        public async Task<ActionResult> AddNewCompany(CreateCompanyDTO createCompanyDTO)
         {
             if (createCompanyDTO is null)
                 return BadRequest(createCompanyDTO);
 
             Company newCompany = _mapper.Map<Company>(createCompanyDTO);
 
-            _context.Companies.Add(newCompany);
-            _context.SaveChanges();
+            await _context.Companies.AddAsync(newCompany);
+            await _context.SaveChangesAsync();
 
             return Created(string.Empty, newCompany);
         }
@@ -81,18 +82,18 @@ namespace Employees.API.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
-        public ActionResult DeleteCompany(int id)
+        public async Task<ActionResult> DeleteCompany(int id)
         {
             if (id <= 0)
                 return BadRequest();
 
-            Company result = _context.Companies.FirstOrDefault(x => x.Id == id);
+            Company result = await _context.Companies.FirstOrDefaultAsync(x => x.Id == id);
 
             if (result == null)
                 return NotFound(result);
 
             _context.Companies.Remove(result);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
 
             return NoContent();
         }
@@ -101,7 +102,7 @@ namespace Employees.API.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public ActionResult UpdateCompany(int id, UpdateCompanyDTO updateCompanyDTO)
+        public async Task<ActionResult> UpdateCompany(int id, UpdateCompanyDTO updateCompanyDTO)
         {
             if (id <= 0 || updateCompanyDTO.Id != id)
                 return BadRequest();
@@ -112,7 +113,7 @@ namespace Employees.API.Controllers
                 return NotFound(result);
 
             _context.Companies.Update(result);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
 
             return Ok(result);
         }

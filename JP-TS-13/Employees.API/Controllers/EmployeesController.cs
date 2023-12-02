@@ -1,6 +1,7 @@
 ﻿using Employees.API.Data;
 using Employees.API.Models.DTOS;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace Employees.API.Controllers
 {
@@ -17,10 +18,10 @@ namespace Employees.API.Controllers
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public ActionResult<List<EmployeeDTO>> GetEmployees()
+        public async Task<ActionResult<List<EmployeeDTO>>> GetEmployees()
         {
 
-            List<Employee> employees = _context.Employees.ToList();
+            List<Employee> employees = await _context.Employees.ToListAsync();
 
             if (employees.Count == 0)
                 return NoContent();
@@ -41,12 +42,12 @@ namespace Employees.API.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public ActionResult<EmployeeDTO> GetEmployee(int id)
+        public async Task<ActionResult<EmployeeDTO>> GetEmployee(int id)
         {
             if (id <= 0)
                 return BadRequest();
 
-            Employee employee = _context.Employees.FirstOrDefault(x => x.Id == id);
+            Employee employee = await _context.Employees.FirstOrDefaultAsync(x => x.Id == id);
 
             if (employee == null)
                 return NotFound(employee);
@@ -68,12 +69,12 @@ namespace Employees.API.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status201Created)]
-        public ActionResult AddNewEmployee(CreatEmployeeDTO createEmployeeDTO)
+        public async Task<ActionResult> AddNewEmployee(CreatEmployeeDTO createEmployeeDTO)
         {
             if (createEmployeeDTO is null)
                 return BadRequest(createEmployeeDTO);
 
-            if (!_context.Companies.Any(x => x.Id == createEmployeeDTO.CompanyId))
+            if (!await _context.Companies.AnyAsync(x => x.Id == createEmployeeDTO.CompanyId))
                 return NotFound("Company don't exists");
 
             Employee newEmployee = new()
@@ -83,8 +84,8 @@ namespace Employees.API.Controllers
                 CompanyId = createEmployeeDTO.CompanyId
             };
 
-            _context.Employees.Add(newEmployee);
-            _context.SaveChanges();
+            await _context.Employees.AddAsync(newEmployee);
+            await _context.SaveChangesAsync();
 
             return Created(string.Empty, newEmployee);
         }
@@ -93,18 +94,18 @@ namespace Employees.API.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
-        public ActionResult DeleteEmployee(int id)
+        public async Task<ActionResult> DeleteEmployee(int id)
         {
             if (id <= 0)
                 return BadRequest();
 
-            Employee result = _context.Employees.FirstOrDefault(x => x.Id == id);
+            Employee result = await _context.Employees.FirstOrDefaultAsync(x => x.Id == id);
 
             if (result == null)
                 return NotFound(result);
 
             _context.Employees.Remove(result);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
 
             return NoContent();
         }
@@ -113,17 +114,17 @@ namespace Employees.API.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public ActionResult UpdateEmployee(int id, UpdateEmployeeDTO updateEmployeeDTO)
+        public async Task<ActionResult> UpdateEmployee(int id, UpdateEmployeeDTO updateEmployeeDTO)
         {
             if (id <= 0 || updateEmployeeDTO.Id != id)
                 return BadRequest();
 
-            Employee result = _context.Employees.FirstOrDefault(x => x.Id == id);
+            Employee result = await _context.Employees.FirstOrDefaultAsync(x => x.Id == id);
 
             if (result == null)
                 return NotFound(result);
 
-            if (!_context.Companies.Any(x => x.Id == updateEmployeeDTO.CompanyId))
+            if (!await _context.Companies.AnyAsync(x => x.Id == updateEmployeeDTO.CompanyId))
                 return NotFound("Company don't exists");
 
             //TODO--Implement automapper logic here...
@@ -132,7 +133,7 @@ namespace Employees.API.Controllers
             result.CompanyId = updateEmployeeDTO.CompanyId;
 
             _context.Employees.Update(result);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
 
             return Ok(result);
         }
