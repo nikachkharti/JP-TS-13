@@ -68,13 +68,7 @@ namespace Employees.API.Controllers
             if (createCompanyDTO is null)
                 return BadRequest(createCompanyDTO);
 
-            //TODO--Implement automapper logic here...
-            Company newCompany = new()
-            {
-                Name = createCompanyDTO.Name,
-                Description = createCompanyDTO.Description,
-                CreateDate = createCompanyDTO.CreateDate
-            };
+            Company newCompany = _mapper.Map<Company>(createCompanyDTO);
 
             _context.Companies.Add(newCompany);
             _context.SaveChanges();
@@ -112,15 +106,10 @@ namespace Employees.API.Controllers
             if (id <= 0 || updateCompanyDTO.Id != id)
                 return BadRequest();
 
-            Company result = _context.Companies.FirstOrDefault(x => x.Id == id);
+            Company result = _mapper.Map<Company>(updateCompanyDTO);
 
             if (result == null)
                 return NotFound(result);
-
-            //TODO--Implement automapper logic here...
-            result.Name = updateCompanyDTO.Name;
-            result.Description = updateCompanyDTO.Description;
-            result.CreateDate = updateCompanyDTO.CreateDate;
 
             _context.Companies.Update(result);
             _context.SaveChanges();
