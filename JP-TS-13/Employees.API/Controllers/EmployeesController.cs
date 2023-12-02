@@ -30,7 +30,8 @@ namespace Employees.API.Controllers
             {
                 Id = x.Id,
                 FirstName = x.FirstName,
-                LastName = x.LastName
+                LastName = x.LastName,
+                Company = _context.Companies.FirstOrDefault(y => y.Id == x.CompanyId)
             }).ToList();
 
             return Ok(result);
@@ -56,6 +57,7 @@ namespace Employees.API.Controllers
                 Id = employee.Id,
                 FirstName = employee.FirstName,
                 LastName = employee.LastName,
+                Company = _context.Companies.FirstOrDefault(x => x.Id == employee.CompanyId)
             };
 
             return Ok(result);

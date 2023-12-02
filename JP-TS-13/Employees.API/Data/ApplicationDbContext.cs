@@ -19,25 +19,30 @@ namespace Employees.API.Data
                     {
                         Id = 1,
                         FirstName = "Irakli",
-                        LastName = "Rogava"
+                        LastName = "Rogava",
+                        CompanyId = 1
                     },
                     new Employee
                     {
                         Id = 2,
                         FirstName = "Giorgi",
-                        LastName = "Omanadze"
+                        LastName = "Omanadze",
+                        CompanyId = 1
                     },
                     new Employee
                     {
                         Id = 3,
                         FirstName = "Giorgi",
-                        LastName = "Jibladze"
+                        LastName = "Jibladze",
+                        CompanyId = 2
+
                     },
                     new Employee
                     {
                         Id = 4,
                         FirstName = "Lizi",
-                        LastName = "Nemsiwverdize"
+                        LastName = "Nemsiwverdize",
+                        CompanyId = 3
                     }
                 );
 

@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Employees.API
 {
@@ -12,6 +13,10 @@ namespace Employees.API
         [MaxLength(30)]
         [Required]
         public string LastName { get; set; }
+
+        public int CompanyId { get; set; }
+        [ForeignKey("CompanyId")]
+        public Company Company { get; set; }
     }
 
 
