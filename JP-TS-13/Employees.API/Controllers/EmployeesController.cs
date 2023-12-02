@@ -66,16 +66,21 @@ namespace Employees.API.Controllers
 
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status201Created)]
         public ActionResult AddNewEmployee(CreatEmployeeDTO createEmployeeDTO)
         {
             if (createEmployeeDTO is null)
                 return BadRequest(createEmployeeDTO);
 
+            if (!_context.Companies.Any(x => x.Id == createEmployeeDTO.CompanyId))
+                return NotFound("Company don't exists");
+
             Employee newEmployee = new()
             {
                 FirstName = createEmployeeDTO.FirstName,
                 LastName = createEmployeeDTO.LastName,
+                CompanyId = createEmployeeDTO.CompanyId
             };
 
             _context.Employees.Add(newEmployee);
@@ -118,9 +123,13 @@ namespace Employees.API.Controllers
             if (result == null)
                 return NotFound(result);
 
+            if (!_context.Companies.Any(x => x.Id == updateEmployeeDTO.CompanyId))
+                return NotFound("Company don't exists");
+
             //TODO--Implement automapper logic here...
             result.FirstName = updateEmployeeDTO.FirstName;
             result.LastName = updateEmployeeDTO.LastName;
+            result.CompanyId = updateEmployeeDTO.CompanyId;
 
             _context.Employees.Update(result);
             _context.SaveChanges();

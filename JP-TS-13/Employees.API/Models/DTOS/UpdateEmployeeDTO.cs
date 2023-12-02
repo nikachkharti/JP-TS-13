@@ -11,5 +11,6 @@ namespace Employees.API.Models.DTOS
         [MaxLength(30)]
         [Required]
         public string LastName { get; set; }
+        public int CompanyId { get; set; }
     }
 }

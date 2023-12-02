@@ -1,4 +1,5 @@
-﻿using Employees.API.Data;
+﻿using AutoMapper;
+using Employees.API.Data;
 using Employees.API.Models.DTOS;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,9 +10,11 @@ namespace Employees.API.Controllers
     public class CompaniesController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
-        public CompaniesController(ApplicationDbContext context)
+        private readonly IMapper _mapper;
+        public CompaniesController(ApplicationDbContext context, IMapper mapper)
         {
             _context = context;
+            _mapper = mapper;
         }
 
         [HttpGet]
@@ -24,16 +27,17 @@ namespace Employees.API.Controllers
             if (companies.Count == 0)
                 return NoContent();
 
-            //TODO--Implement automapper logic here...
-            List<CompanyDTO> result = companies.Select(x => new CompanyDTO
-            {
-                Id = x.Id,
-                Name = x.Name,
-                CreateDate = x.CreateDate,
-                Description = x.Description
-            }).ToList();
-
+            List<CompanyDTO> result = _mapper.Map<List<CompanyDTO>>(companies);
             return Ok(result);
+
+            //ძველი კოდი ხელით mapping
+            //List<CompanyDTO> result = companies.Select(x => new CompanyDTO
+            //{
+            //    Id = x.Id,
+            //    Name = x.Name,
+            //    CreateDate = x.CreateDate,
+            //    Description = x.Description
+            //}).ToList();
         }
 
         [HttpGet("{id}")]
@@ -50,15 +54,7 @@ namespace Employees.API.Controllers
             if (company == null)
                 return NotFound(company);
 
-            //TODO--Implement automapper logic here...
-            CompanyDTO result = new()
-            {
-                Id = company.Id,
-                Name = company.Name,
-                CreateDate = company.CreateDate,
-                Description = company.Description
-            };
-
+            CompanyDTO result = _mapper.Map<CompanyDTO>(company);
             return Ok(result);
         }
 

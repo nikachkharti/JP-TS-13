@@ -10,6 +10,6 @@ namespace Employees.API.Models.DTOS
         [MaxLength(30)]
         [Required]
         public string LastName { get; set; }
-        //TODO : თანამშრომლის დამატებისას მინდა რომ ავირჩიო რომელ კომპანიაში მუშაობს ეს ადამიანი.
+        public int CompanyId { get; set; }
     }
 }
