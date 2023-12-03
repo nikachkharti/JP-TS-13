@@ -10,6 +10,10 @@ namespace Employees.API
             CreateMap<Company, CompanyDTO>();
             CreateMap<CreateCompanyDTO, Company>();
             CreateMap<UpdateCompanyDTO, Company>();
+
+            CreateMap<Employee, EmployeeDTO>();
+            CreateMap<CreatEmployeeDTO, Employee>();
+            CreateMap<UpdateEmployeeDTO, Employee>();
         }
     }
 }

@@ -2,6 +2,7 @@
 using Employees.API.Models.DTOS;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using AutoMapper;
 
 namespace Employees.API.Controllers
 {
@@ -10,9 +11,11 @@ namespace Employees.API.Controllers
     public class EmployeesController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
-        public EmployeesController(ApplicationDbContext context)
+        private readonly IMapper _mapper;
+        public EmployeesController(ApplicationDbContext context, IMapper mapper)
         {
             _context = context;
+            _mapper = mapper;
         }
 
         [HttpGet]
@@ -21,19 +24,14 @@ namespace Employees.API.Controllers
         public async Task<ActionResult<List<EmployeeDTO>>> GetEmployees()
         {
 
-            List<Employee> employees = await _context.Employees.ToListAsync();
+            List<Employee> employees = await _context.Employees
+                .Include("Company")
+                .ToListAsync();
 
             if (employees.Count == 0)
                 return NoContent();
 
-            //TODO--Implement automapper logic here...
-            List<EmployeeDTO> result = employees.Select(x => new EmployeeDTO
-            {
-                Id = x.Id,
-                FirstName = x.FirstName,
-                LastName = x.LastName,
-                Company = _context.Companies.FirstOrDefault(y => y.Id == x.CompanyId)
-            }).ToList();
+            List<EmployeeDTO> result = _mapper.Map<List<EmployeeDTO>>(employees);
 
             return Ok(result);
         }
@@ -47,19 +45,14 @@ namespace Employees.API.Controllers
             if (id <= 0)
                 return BadRequest();
 
-            Employee employee = await _context.Employees.FirstOrDefaultAsync(x => x.Id == id);
+            Employee employee = await _context.Employees
+                .Include("Company")
+                .FirstOrDefaultAsync(x => x.Id == id);
 
             if (employee == null)
                 return NotFound(employee);
 
-            //TODO--Implement automapper logic here...
-            EmployeeDTO result = new()
-            {
-                Id = employee.Id,
-                FirstName = employee.FirstName,
-                LastName = employee.LastName,
-                Company = _context.Companies.FirstOrDefault(x => x.Id == employee.CompanyId)
-            };
+            EmployeeDTO result = _mapper.Map<EmployeeDTO>(employee);
 
             return Ok(result);
         }
@@ -77,12 +70,8 @@ namespace Employees.API.Controllers
             if (!await _context.Companies.AnyAsync(x => x.Id == createEmployeeDTO.CompanyId))
                 return NotFound("Company don't exists");
 
-            Employee newEmployee = new()
-            {
-                FirstName = createEmployeeDTO.FirstName,
-                LastName = createEmployeeDTO.LastName,
-                CompanyId = createEmployeeDTO.CompanyId
-            };
+
+            Employee newEmployee = _mapper.Map<Employee>(createEmployeeDTO);
 
             await _context.Employees.AddAsync(newEmployee);
             await _context.SaveChangesAsync();
@@ -114,23 +103,21 @@ namespace Employees.API.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<ActionResult> UpdateEmployee(int id, UpdateEmployeeDTO updateEmployeeDTO)
+        public async Task<ActionResult> UpdateEmployee(UpdateEmployeeDTO updateEmployeeDTO)
         {
-            if (id <= 0 || updateEmployeeDTO.Id != id)
+            if (!await _context.Employees.AnyAsync(x => x.Id == updateEmployeeDTO.Id))
+                return NotFound("Employee don't exsits");
+
+            if (updateEmployeeDTO.Id <= 0 || updateEmployeeDTO == null)
                 return BadRequest();
 
-            Employee result = await _context.Employees.FirstOrDefaultAsync(x => x.Id == id);
+            Employee result = _mapper.Map<Employee>(updateEmployeeDTO);
 
             if (result == null)
                 return NotFound(result);
 
             if (!await _context.Companies.AnyAsync(x => x.Id == updateEmployeeDTO.CompanyId))
                 return NotFound("Company don't exists");
-
-            //TODO--Implement automapper logic here...
-            result.FirstName = updateEmployeeDTO.FirstName;
-            result.LastName = updateEmployeeDTO.LastName;
-            result.CompanyId = updateEmployeeDTO.CompanyId;
 
             _context.Employees.Update(result);
             await _context.SaveChangesAsync();

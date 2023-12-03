@@ -102,9 +102,12 @@ namespace Employees.API.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<ActionResult> UpdateCompany(int id, UpdateCompanyDTO updateCompanyDTO)
+        public async Task<ActionResult> UpdateCompany(UpdateCompanyDTO updateCompanyDTO)
         {
-            if (id <= 0 || updateCompanyDTO.Id != id)
+            if (!await _context.Employees.AnyAsync(x => x.Id == updateCompanyDTO.Id))
+                return NotFound("Company don't exsits");
+
+            if (updateCompanyDTO.Id <= 0 || updateCompanyDTO == null)
                 return BadRequest();
 
             Company result = _mapper.Map<Company>(updateCompanyDTO);
