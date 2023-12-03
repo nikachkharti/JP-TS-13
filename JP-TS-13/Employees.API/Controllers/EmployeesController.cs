@@ -3,6 +3,8 @@ using Employees.API.Models.DTOS;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using AutoMapper;
+using Employees.API.Models;
+using System.Net;
 
 namespace Employees.API.Controllers
 {
@@ -12,117 +14,302 @@ namespace Employees.API.Controllers
     {
         private readonly ApplicationDbContext _context;
         private readonly IMapper _mapper;
+        private APIResponse _response;
+
         public EmployeesController(ApplicationDbContext context, IMapper mapper)
         {
             _context = context;
             _mapper = mapper;
+            _response = new();
         }
 
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<ActionResult<List<EmployeeDTO>>> GetEmployees()
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult<APIResponse>> GetEmployees()
         {
+            try
+            {
+                List<Employee> employees = await _context.Employees
+                    .Include("Company")
+                    .ToListAsync();
 
-            List<Employee> employees = await _context.Employees
-                .Include("Company")
-                .ToListAsync();
+                if (employees.Count == 0)
+                {
+                    _response.StatusCode = HttpStatusCode.NoContent;
+                    _response.IsSuccess = false;
+                    _response.ErrorMessages = new List<string>() { "Employees not found." };
+                    _response.Result = null;
 
-            if (employees.Count == 0)
-                return NoContent();
+                    return _response;
+                }
 
-            List<EmployeeDTO> result = _mapper.Map<List<EmployeeDTO>>(employees);
+                List<EmployeeDTO> result = _mapper.Map<List<EmployeeDTO>>(employees);
 
-            return Ok(result);
+                if (result == null)
+                {
+                    _response.StatusCode = HttpStatusCode.NoContent;
+                    _response.IsSuccess = false;
+                    _response.ErrorMessages = new List<string>() { "Employees not found." };
+                    _response.Result = null;
+
+                    return _response;
+                }
+
+                _response.StatusCode = HttpStatusCode.OK;
+                _response.IsSuccess = true;
+                _response.Result = result;
+            }
+            catch (Exception ex)
+            {
+                _response.StatusCode = HttpStatusCode.InternalServerError;
+                _response.IsSuccess = false;
+                _response.ErrorMessages = new List<string>() { ex.Message };
+                _response.Result = null;
+            }
+
+            return _response;
         }
 
         [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<ActionResult<EmployeeDTO>> GetEmployee(int id)
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult<APIResponse>> GetEmployee(int id)
         {
-            if (id <= 0)
-                return BadRequest();
+            try
+            {
+                if (id <= 0)
+                {
+                    _response.StatusCode = HttpStatusCode.BadRequest;
+                    _response.IsSuccess = false;
+                    _response.ErrorMessages = new List<string>() { "Incorrect data passed." };
+                    _response.Result = null;
 
-            Employee employee = await _context.Employees
-                .Include("Company")
-                .FirstOrDefaultAsync(x => x.Id == id);
+                    return _response;
+                }
 
-            if (employee == null)
-                return NotFound(employee);
+                Employee employee = await _context.Employees
+                    .Include("Company")
+                    .FirstOrDefaultAsync(x => x.Id == id);
 
-            EmployeeDTO result = _mapper.Map<EmployeeDTO>(employee);
+                if (employee == null)
+                {
+                    _response.StatusCode = HttpStatusCode.NoContent;
+                    _response.IsSuccess = false;
+                    _response.ErrorMessages = new List<string>() { "Employee not found." };
+                    _response.Result = null;
 
-            return Ok(result);
+                    return _response;
+                }
+
+                EmployeeDTO result = _mapper.Map<EmployeeDTO>(employee);
+
+                if (result == null)
+                {
+                    _response.StatusCode = HttpStatusCode.NoContent;
+                    _response.IsSuccess = false;
+                    _response.ErrorMessages = new List<string>() { "Employee not found." };
+                    _response.Result = null;
+
+                    return _response;
+                }
+
+                _response.StatusCode = HttpStatusCode.OK;
+                _response.IsSuccess = true;
+                _response.Result = result;
+
+            }
+            catch (Exception ex)
+            {
+                _response.StatusCode = HttpStatusCode.InternalServerError;
+                _response.IsSuccess = false;
+                _response.ErrorMessages = new List<string>() { ex.Message };
+                _response.Result = null;
+            }
+
+            return _response;
         }
 
 
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status201Created)]
-        public async Task<ActionResult> AddNewEmployee(CreatEmployeeDTO createEmployeeDTO)
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult<APIResponse>> AddNewEmployee(CreatEmployeeDTO createEmployeeDTO)
         {
-            if (createEmployeeDTO is null)
-                return BadRequest(createEmployeeDTO);
+            try
+            {
+                if (createEmployeeDTO is null)
+                {
+                    _response.StatusCode = HttpStatusCode.BadRequest;
+                    _response.IsSuccess = false;
+                    _response.ErrorMessages = new List<string>() { "Incorrect data passed." };
+                    _response.Result = null;
 
-            if (!await _context.Companies.AnyAsync(x => x.Id == createEmployeeDTO.CompanyId))
-                return NotFound("Company don't exists");
+                    return _response;
+                }
 
+                if (!await _context.Companies.AnyAsync(x => x.Id == createEmployeeDTO.CompanyId))
+                {
+                    _response.StatusCode = HttpStatusCode.NoContent;
+                    _response.IsSuccess = false;
+                    _response.ErrorMessages = new List<string>() { "Company don't exists." };
+                    _response.Result = null;
 
-            Employee newEmployee = _mapper.Map<Employee>(createEmployeeDTO);
+                    return _response;
+                }
 
-            await _context.Employees.AddAsync(newEmployee);
-            await _context.SaveChangesAsync();
+                Employee newEmployee = _mapper.Map<Employee>(createEmployeeDTO);
 
-            return Created(string.Empty, newEmployee);
+                if (newEmployee is null)
+                {
+                    _response.StatusCode = HttpStatusCode.NoContent;
+                    _response.IsSuccess = false;
+                    _response.ErrorMessages = new List<string>() { "Employee not found." };
+                    _response.Result = null;
+
+                    return _response;
+                }
+
+                await _context.Employees.AddAsync(newEmployee);
+                await _context.SaveChangesAsync();
+
+                _response.StatusCode = HttpStatusCode.Created;
+                _response.IsSuccess = true;
+                _response.Result = newEmployee;
+            }
+            catch (Exception ex)
+            {
+                _response.StatusCode = HttpStatusCode.InternalServerError;
+                _response.IsSuccess = false;
+                _response.ErrorMessages = new List<string>() { ex.Message };
+                _response.Result = null;
+            }
+
+            return _response;
         }
+
 
         [HttpDelete("{id}")]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
-        public async Task<ActionResult> DeleteEmployee(int id)
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult<APIResponse>> DeleteEmployee(int id)
         {
-            if (id <= 0)
-                return BadRequest();
+            try
+            {
+                if (id <= 0)
+                {
+                    _response.StatusCode = HttpStatusCode.BadRequest;
+                    _response.IsSuccess = false;
+                    _response.ErrorMessages = new List<string>() { "Incorrect data passed." };
+                    _response.Result = null;
 
-            Employee result = await _context.Employees.FirstOrDefaultAsync(x => x.Id == id);
+                    return _response;
+                }
 
-            if (result == null)
-                return NotFound(result);
+                Employee result = await _context.Employees.FirstOrDefaultAsync(x => x.Id == id);
 
-            _context.Employees.Remove(result);
-            await _context.SaveChangesAsync();
+                if (result == null)
+                {
+                    _response.StatusCode = HttpStatusCode.NoContent;
+                    _response.IsSuccess = false;
+                    _response.ErrorMessages = new List<string>() { "Employee not found." };
+                    _response.Result = null;
 
-            return NoContent();
+                    return _response;
+                }
+
+                _context.Employees.Remove(result);
+                await _context.SaveChangesAsync();
+
+                _response.StatusCode = HttpStatusCode.OK;
+                _response.IsSuccess = true;
+                _response.Result = result;
+            }
+            catch (Exception ex)
+            {
+                _response.StatusCode = HttpStatusCode.InternalServerError;
+                _response.IsSuccess = false;
+                _response.ErrorMessages = new List<string>() { ex.Message };
+                _response.Result = null;
+            }
+
+            return _response;
         }
 
         [HttpPut]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<ActionResult> UpdateEmployee(UpdateEmployeeDTO updateEmployeeDTO)
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult<APIResponse>> UpdateEmployee(UpdateEmployeeDTO updateEmployeeDTO)
         {
-            if (!await _context.Employees.AnyAsync(x => x.Id == updateEmployeeDTO.Id))
-                return NotFound("Employee don't exsits");
+            try
+            {
+                if (!await _context.Employees.AnyAsync(x => x.Id == updateEmployeeDTO.Id))
+                {
+                    _response.StatusCode = HttpStatusCode.NoContent;
+                    _response.IsSuccess = false;
+                    _response.ErrorMessages = new List<string>() { "Employee don't exists." };
+                    _response.Result = null;
 
-            if (updateEmployeeDTO.Id <= 0 || updateEmployeeDTO == null)
-                return BadRequest();
+                    return _response;
+                }
 
-            Employee result = _mapper.Map<Employee>(updateEmployeeDTO);
+                if (updateEmployeeDTO.Id <= 0 || updateEmployeeDTO == null)
+                {
+                    _response.StatusCode = HttpStatusCode.BadRequest;
+                    _response.IsSuccess = false;
+                    _response.ErrorMessages = new List<string>() { "Incorrect data passed." };
+                    _response.Result = null;
 
-            if (result == null)
-                return NotFound(result);
+                    return _response;
+                }
 
-            if (!await _context.Companies.AnyAsync(x => x.Id == updateEmployeeDTO.CompanyId))
-                return NotFound("Company don't exists");
+                Employee result = _mapper.Map<Employee>(updateEmployeeDTO);
 
-            _context.Employees.Update(result);
-            await _context.SaveChangesAsync();
+                if (result == null)
+                {
+                    _response.StatusCode = HttpStatusCode.NoContent;
+                    _response.IsSuccess = false;
+                    _response.ErrorMessages = new List<string>() { "Employee not found." };
+                    _response.Result = null;
 
-            return Ok(result);
+                    return _response;
+                }
+
+                if (!await _context.Companies.AnyAsync(x => x.Id == updateEmployeeDTO.CompanyId))
+                {
+                    _response.StatusCode = HttpStatusCode.NoContent;
+                    _response.IsSuccess = false;
+                    _response.ErrorMessages = new List<string>() { "Company don't exists." };
+                    _response.Result = null;
+
+                    return _response;
+                }
+
+                _context.Employees.Update(result);
+                await _context.SaveChangesAsync();
+
+                _response.StatusCode = HttpStatusCode.OK;
+                _response.IsSuccess = true;
+                _response.Result = result;
+            }
+            catch (Exception ex)
+            {
+                _response.StatusCode = HttpStatusCode.InternalServerError;
+                _response.IsSuccess = false;
+                _response.ErrorMessages = new List<string>() { ex.Message };
+                _response.Result = null;
+            }
+
+            return _response;
         }
     }
 }
