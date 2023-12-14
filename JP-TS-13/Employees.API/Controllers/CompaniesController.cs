@@ -216,7 +216,7 @@ namespace Employees.API.Controllers
         {
             try
             {
-                if (!await _context.Employees.AnyAsync(x => x.Id == updateCompanyDTO.Id))
+                if (!await _context.Companies.AnyAsync(x => x.Id == updateCompanyDTO.Id))
                 {
                     _response.StatusCode = HttpStatusCode.NoContent;
                     _response.IsSuccess = false;

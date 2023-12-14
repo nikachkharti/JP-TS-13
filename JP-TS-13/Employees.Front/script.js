@@ -1,7 +1,9 @@
 let createBtn = document.querySelector('#createBtn');
 let clearBtn = document.querySelector('#clearBtn');
 let deleteBtn = document.querySelector('#deleteBtn');
+let updateBtn = document.querySelector('#updateBtn');
 
+let companyId;
 let companyName = document.querySelector('#comapnyName');
 let companyDescription = document.querySelector('#companyDescription');
 let comapnyCreateDate = document.querySelector('#comapnyCreateDate');
@@ -10,6 +12,7 @@ let companiesContainer = document.querySelector('#companiesContainer');
 
 
 function displayCompanyInForm(company) {
+    companyId = company.id;
     companyName.value = company.name;
     companyDescription.value = company.description;
 
@@ -119,7 +122,6 @@ function createCompany(name, description, createDate) {
             getAllCompanies();
         }) // Log the parsed JSON data
         .catch(error => console.error('Error:', error)); // Catch any errors
-
 }
 
 createBtn.addEventListener('click', function () {
@@ -137,5 +139,38 @@ function clearForm() {
     comapnyCreateDate.value = new Date();
 }
 
+
+
+
+function updateCompany(id,name, description, createDate) {
+    const body = {
+        "id": id,
+        "name": name.value,
+        "description": description.value,
+        "createDate": createDate.value
+    };
+
+    fetch('https://localhost:7242/api/companies', {
+        method: 'PUT',
+        body: JSON.stringify(body),
+        headers: {
+            'content-type': 'application/json'
+        }
+    })
+        .then(response => response.json()) // Need to invoke json() to parse the response
+        .then(data => {
+            clearForm();
+            //TODO Check status before alert...
+            alert('Company updated successfully');
+            getAllCompanies();
+        }) // Log the parsed JSON data
+        .catch(error => console.error('Error:', error)); // Catch any errors
+}
+
+
+updateBtn.addEventListener('click',function(e){
+    console.log(e);
+    updateCompany(companyId,companyName, companyDescription, comapnyCreateDate);
+})
 
 
