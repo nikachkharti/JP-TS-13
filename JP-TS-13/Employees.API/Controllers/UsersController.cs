@@ -20,15 +20,15 @@ namespace Employees.API.Controllers
             _response = new();
         }
 
-        [HttpGet]
-        public async Task<ActionResult<APIResponse>> Login([FromBody] LoginUserDTO model)
+        [HttpPost("login")]
+        public async Task<ActionResult<APIResponse>> Login(LoginUserDTO model)
         {
             //დაწერეთ მომხმარებლის user - ავტორიზაციის ლოგიკა.
             throw new NotImplementedException();
         }
 
-        [HttpPost]
-        public async Task<ActionResult<APIResponse>> Register([FromBody] RegisterUserDTO model)
+        [HttpPost("register")]
+        public async Task<ActionResult<APIResponse>> Register(RegisterUserDTO model)
         {
             //დაწერეთ მომხმარებლის user - რეგისტრაციის ლოგიკა.
             throw new NotImplementedException();
