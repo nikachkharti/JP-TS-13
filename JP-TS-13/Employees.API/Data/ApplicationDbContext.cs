@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Employees.API.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace Employees.API.Data
 {
@@ -10,6 +11,7 @@ namespace Employees.API.Data
 
         public DbSet<Employee> Employees { get; set; }
         public DbSet<Company> Companies { get; set; }
+        public DbSet<User> Users { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -68,6 +70,23 @@ namespace Employees.API.Data
                         Name = "Intel",
                         CreateDate = DateTime.Now,
                         Description = "Intel company"
+                    }
+                );
+
+            modelBuilder.Entity<User>().HasData(
+                    new User
+                    {
+                        Id = 1,
+                        Email = "admin@gmail.com",
+                        Password = "admin",
+                        Role = "administrator"
+                    },
+                    new User
+                    {
+                        Id = 2,
+                        Email = "customer@gmail.com",
+                        Password = "customer",
+                        Role = "customer"
                     }
                 );
         }

@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Employees.API.Models;
 using Employees.API.Models.DTOS;
 
 namespace Employees.API
@@ -14,6 +15,9 @@ namespace Employees.API
             CreateMap<Employee, EmployeeDTO>();
             CreateMap<CreatEmployeeDTO, Employee>();
             CreateMap<UpdateEmployeeDTO, Employee>();
+
+            CreateMap<RegisterUserDTO, User>();
+            CreateMap<LoginUserDTO, User>();
         }
     }
 }
